@@ -4,7 +4,7 @@
         "apiVersion": "apps/v1",
         "metadata": {
             "selfLink": "/apis/apps/v1/deployments",
-            "resourceVersion": "192071"
+            "resourceVersion": "195556"
         },
         "items": [
             {
@@ -839,7 +839,7 @@
                     "namespace": "kubernetes-dashboard",
                     "selfLink": "/apis/apps/v1/namespaces/kubernetes-dashboard/deployments/kubernetes-dashboard",
                     "uid": "f4d82f01-e5a3-4c60-a68c-021f14e3b667",
-                    "resourceVersion": "176193",
+                    "resourceVersion": "192607",
                     "generation": 1,
                     "creationTimestamp": "2019-10-29T11:16:40Z",
                     "labels": {
@@ -963,8 +963,8 @@
                         {
                             "type": "Available",
                             "status": "True",
-                            "lastUpdateTime": "2020-02-08T10:39:16Z",
-                            "lastTransitionTime": "2020-02-08T10:39:16Z",
+                            "lastUpdateTime": "2020-02-08T16:57:14Z",
+                            "lastTransitionTime": "2020-02-08T16:57:14Z",
                             "reason": "MinimumReplicasAvailable",
                             "message": "Deployment has minimum availability."
                         }
