@@ -1,0 +1,201 @@
+[
+    {
+        "kind": "ServiceList",
+        "apiVersion": "v1",
+        "metadata": {
+            "selfLink": "/api/v1/namespaces/default/services",
+            "resourceVersion": "191986"
+        },
+        "items": [
+            {
+                "metadata": {
+                    "name": "hello-minkube",
+                    "namespace": "default",
+                    "selfLink": "/api/v1/namespaces/default/services/hello-minkube",
+                    "uid": "ac5772df-9134-42ec-b996-cd68e21c5587",
+                    "resourceVersion": "956",
+                    "creationTimestamp": "2019-10-29T09:30:12Z",
+                    "labels": {
+                        "run": "hello-minkube"
+                    }
+                },
+                "spec": {
+                    "ports": [
+                        {
+                            "protocol": "TCP",
+                            "port": 8080,
+                            "targetPort": 8080,
+                            "nodePort": 30292
+                        }
+                    ],
+                    "selector": {
+                        "run": "hello-minkube"
+                    },
+                    "clusterIP": "10.99.203.164",
+                    "type": "NodePort",
+                    "sessionAffinity": "None",
+                    "externalTrafficPolicy": "Cluster"
+                },
+                "status": {
+                    "loadBalancer": {}
+                }
+            },
+            {
+                "metadata": {
+                    "name": "kubernetes",
+                    "namespace": "default",
+                    "selfLink": "/api/v1/namespaces/default/services/kubernetes",
+                    "uid": "07c0472b-6e41-4312-a717-e536f6a848f4",
+                    "resourceVersion": "178",
+                    "creationTimestamp": "2019-10-29T09:22:26Z",
+                    "labels": {
+                        "component": "apiserver",
+                        "provider": "kubernetes"
+                    }
+                },
+                "spec": {
+                    "ports": [
+                        {
+                            "name": "https",
+                            "protocol": "TCP",
+                            "port": 443,
+                            "targetPort": 8443
+                        }
+                    ],
+                    "clusterIP": "10.96.0.1",
+                    "type": "ClusterIP",
+                    "sessionAffinity": "None"
+                },
+                "status": {
+                    "loadBalancer": {}
+                }
+            },
+            {
+                "metadata": {
+                    "name": "postgres",
+                    "namespace": "default",
+                    "selfLink": "/api/v1/namespaces/default/services/postgres",
+                    "uid": "ea8267b2-ab61-45b5-a045-8d100275d80e",
+                    "resourceVersion": "170999",
+                    "creationTimestamp": "2020-02-07T10:53:26Z",
+                    "labels": {
+                        "app": "postgres"
+                    }
+                },
+                "spec": {
+                    "ports": [
+                        {
+                            "protocol": "TCP",
+                            "port": 5432,
+                            "targetPort": 5432,
+                            "nodePort": 30979
+                        }
+                    ],
+                    "selector": {
+                        "app": "postgres"
+                    },
+                    "clusterIP": "10.97.53.21",
+                    "type": "NodePort",
+                    "sessionAffinity": "None",
+                    "externalTrafficPolicy": "Cluster"
+                },
+                "status": {
+                    "loadBalancer": {}
+                }
+            },
+            {
+                "metadata": {
+                    "name": "postgres1",
+                    "namespace": "default",
+                    "selfLink": "/api/v1/namespaces/default/services/postgres1",
+                    "uid": "e01d6b44-7e76-4d1a-a8de-560ba9c6b6ab",
+                    "resourceVersion": "172250",
+                    "creationTimestamp": "2020-02-07T11:08:53Z",
+                    "labels": {
+                        "app": "postgres"
+                    }
+                },
+                "spec": {
+                    "ports": [
+                        {
+                            "protocol": "TCP",
+                            "port": 5432,
+                            "targetPort": 5432,
+                            "nodePort": 31321
+                        }
+                    ],
+                    "selector": {
+                        "app": "postgres"
+                    },
+                    "clusterIP": "10.96.246.50",
+                    "type": "NodePort",
+                    "sessionAffinity": "None",
+                    "externalTrafficPolicy": "Cluster"
+                },
+                "status": {
+                    "loadBalancer": {}
+                }
+            },
+            {
+                "metadata": {
+                    "name": "tomcat-deployment",
+                    "namespace": "default",
+                    "selfLink": "/api/v1/namespaces/default/services/tomcat-deployment",
+                    "uid": "cff0ae09-8d44-434c-97d1-7698803832d7",
+                    "resourceVersion": "4163",
+                    "creationTimestamp": "2019-10-29T10:21:28Z"
+                },
+                "spec": {
+                    "ports": [
+                        {
+                            "protocol": "TCP",
+                            "port": 8080,
+                            "targetPort": 8080,
+                            "nodePort": 31102
+                        }
+                    ],
+                    "selector": {
+                        "app": "tomcat"
+                    },
+                    "clusterIP": "10.102.95.35",
+                    "type": "NodePort",
+                    "sessionAffinity": "None",
+                    "externalTrafficPolicy": "Cluster"
+                },
+                "status": {
+                    "loadBalancer": {}
+                }
+            },
+            {
+                "metadata": {
+                    "name": "tomcat-load-balancer",
+                    "namespace": "default",
+                    "selfLink": "/api/v1/namespaces/default/services/tomcat-load-balancer",
+                    "uid": "2db74226-22ac-4ee9-bee3-09dff290d7c7",
+                    "resourceVersion": "5890",
+                    "creationTimestamp": "2019-10-29T10:44:57Z"
+                },
+                "spec": {
+                    "ports": [
+                        {
+                            "protocol": "TCP",
+                            "port": 8080,
+                            "targetPort": 8080,
+                            "nodePort": 32294
+                        }
+                    ],
+                    "selector": {
+                        "app": "tomcat"
+                    },
+                    "clusterIP": "10.106.74.27",
+                    "type": "LoadBalancer",
+                    "sessionAffinity": "None",
+                    "externalTrafficPolicy": "Cluster"
+                },
+                "status": {
+                    "loadBalancer": {}
+                }
+            }
+        ]
+    }
+]
