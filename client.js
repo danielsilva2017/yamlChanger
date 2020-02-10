@@ -70,7 +70,7 @@ module.exports={
        await client2.deployments.get( function (err, data) {
             if(!err){
                 var a = JSON.stringify(data)
-                return data
+                
             }
             else{
                 console.log("Error")
