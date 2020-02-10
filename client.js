@@ -47,11 +47,11 @@ namespace: 'default'
 
 client2.deployments = client2.createCollection('deployments',null,null,{ apiPrefix : 'apis',namespaced: true});
 
-client2.deployments.get( function (err, data) {
+/*client2.deployments.get( function (err, data) {
     console.log("here"+JSON.stringify(data))
     var a = data[0].items.filter(a=>a.metadata.name=="tomcat-deployment")
     var dataJson=a[0]
-    dataJson.spec.replicas=5;
+    dataJson.spec.replicas=3;
     console.log(dataJson)
     client2.deployments.update('tomcat-deployment',dataJson,function (err, data) {
         if(!err){
@@ -61,5 +61,24 @@ client2.deployments.get( function (err, data) {
             console.log("ups"+JSON.stringify(err))
         }
     });
-});
+});*/
 
+
+
+module.exports={
+    getDeployment : async function getDeployment(){
+       await client2.deployments.get( function (err, data) {
+            if(!err){
+                var a = JSON.stringify(data)
+                return data
+            }
+            else{
+                console.log("Error")
+            }
+        return "testing"
+        });
+    },
+    xd : function xd(){
+        return "xd"
+    }
+}
