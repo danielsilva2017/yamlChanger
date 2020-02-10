@@ -37,7 +37,27 @@ router.get('/:deployment',(req,res,next)=>{
         }
     });
 });
-
+router.post('/:deployment',(req,res,next)=>{
+    const name = req.params.deployment
+    client.deployments.get(name,function (err, data) {
+        if(!err){
+            
+            data.spec.replicas=3;
+            client.deployments.update(name,data,function (err, data) {
+                if(!err){
+                    console.log("done")
+                    res.status(200).json(data)
+                }
+                else{
+                    console.log("ups"+JSON.stringify(err))
+                }
+            });
+        }
+        else{
+            console.log("Error")
+        }
+    });
+});
 
 
 module.exports = router;
