@@ -37,12 +37,12 @@ router.get('/:deployment',(req,res,next)=>{
         }
     });
 });
-router.post('/:deployment',(req,res,next)=>{
+router.post('/replicas/:deployment/:id',(req,res,next)=>{
     const name = req.params.deployment
+    const id = req.params.id
     client.deployments.get(name,function (err, data) {
         if(!err){
-            
-            data.spec.replicas=3;
+            data.spec.replicas=parseInt(id)
             client.deployments.update(name,data,function (err, data) {
                 if(!err){
                     console.log("done")
