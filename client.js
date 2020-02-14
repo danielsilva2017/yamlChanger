@@ -6,16 +6,16 @@ host: '127.0.0.1:8001',
 version: 'v1',
 reqOptions: {},
 namespace: 'default'
-});
-/*client.pods.get(function (err, pods) {
+});/*
+client.pods.get(function (err, pods) {
     console.log('pods:', JSON.stringify(pods));
     a=JSON.stringify(pods);
     fs.writeFile("results/pods.json", JSON.stringify(pods, null, 4));
 });
-*/
 
+*/
 /*
-client.endpoints.get("aaaj",function (err, endpoints) {
+client.endpoints.get("tomcat-deployment-b4788ff84-v85jr",function (err, endpoints) {
     if (!err) {
         console.log("supp")
       b=JSON.stringify(endpoints)
@@ -36,7 +36,7 @@ client.services.get( function (err, data) {
     console.log("here"+JSON.stringify(data))
     
 });*/
-
+/*
 var client2 = new Client({
     protocol: 'http',
 host: '127.0.0.1:8001',

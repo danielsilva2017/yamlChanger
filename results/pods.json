@@ -1,155 +1,1008 @@
-{
-    "kind": "Pod",
-    "apiVersion": "v1",
-    "metadata": {
-        "name": "tomcat-deployment-678db765bc-4w8t5",
-        "generateName": "tomcat-deployment-678db765bc-",
-        "namespace": "default",
-        "selfLink": "/api/v1/namespaces/default/pods/tomcat-deployment-678db765bc-4w8t5",
-        "uid": "53461081-fc43-48e6-b784-3c02bc0f3f19",
-        "resourceVersion": "184284",
-        "creationTimestamp": "2019-10-29T11:08:35Z",
-        "labels": {
-            "app": "tomcat",
-            "pod-template-hash": "678db765bc"
+[
+    {
+        "kind": "PodList",
+        "apiVersion": "v1",
+        "metadata": {
+            "selfLink": "/api/v1/namespaces/default/pods",
+            "resourceVersion": "213045"
         },
-        "annotations": {
-            "description": "my frontend running nginx"
-        },
-        "ownerReferences": [
+        "items": [
             {
-                "apiVersion": "apps/v1",
-                "kind": "ReplicaSet",
-                "name": "tomcat-deployment-678db765bc",
-                "uid": "27ea130d-a62b-43ca-9ea8-b5fd4b9ca8a1",
-                "controller": true,
-                "blockOwnerDeletion": true
-            }
-        ]
-    },
-    "spec": {
-        "volumes": [
+                "metadata": {
+                    "name": "java-597f88bcd8-v4rt5",
+                    "generateName": "java-597f88bcd8-",
+                    "namespace": "default",
+                    "selfLink": "/api/v1/namespaces/default/pods/java-597f88bcd8-v4rt5",
+                    "uid": "7af0913b-5ee9-4092-95fb-e8c8d5e0ed59",
+                    "resourceVersion": "209303",
+                    "creationTimestamp": "2020-02-07T10:55:48Z",
+                    "labels": {
+                        "app": "java",
+                        "pod-template-hash": "597f88bcd8"
+                    },
+                    "ownerReferences": [
+                        {
+                            "apiVersion": "apps/v1",
+                            "kind": "ReplicaSet",
+                            "name": "java-597f88bcd8",
+                            "uid": "cf91c028-f65c-4baa-a2f9-d0bfe8d5f5c7",
+                            "controller": true,
+                            "blockOwnerDeletion": true
+                        }
+                    ]
+                },
+                "spec": {
+                    "volumes": [
+                        {
+                            "name": "default-token-vdxl2",
+                            "secret": {
+                                "secretName": "default-token-vdxl2",
+                                "defaultMode": 420
+                            }
+                        }
+                    ],
+                    "containers": [
+                        {
+                            "name": "java",
+                            "image": "silvadanielum/java:latestV10",
+                            "command": [
+                                "/bin/sh",
+                                "-c",
+                                "cd tpc-c-0.1-SNAPSHOT/etc/\nsed -i 's/.*tpcc.number.warehouses=4.*/tpcc.number.warehouses=1/'  workload-config.properties\nsed -i 's/.*measurement.time=2.*/measurement.time=1/'  workload-config.properties \ncd ..\n./load.sh\n./run.sh\nwhile true; do sleep 30; done\n"
+                            ],
+                            "resources": {},
+                            "volumeMounts": [
+                                {
+                                    "name": "default-token-vdxl2",
+                                    "readOnly": true,
+                                    "mountPath": "/var/run/secrets/kubernetes.io/serviceaccount"
+                                }
+                            ],
+                            "terminationMessagePath": "/dev/termination-log",
+                            "terminationMessagePolicy": "File",
+                            "imagePullPolicy": "IfNotPresent"
+                        }
+                    ],
+                    "restartPolicy": "Always",
+                    "terminationGracePeriodSeconds": 30,
+                    "dnsPolicy": "ClusterFirst",
+                    "serviceAccountName": "default",
+                    "serviceAccount": "default",
+                    "nodeName": "minikube",
+                    "securityContext": {},
+                    "schedulerName": "default-scheduler",
+                    "tolerations": [
+                        {
+                            "key": "node.kubernetes.io/not-ready",
+                            "operator": "Exists",
+                            "effect": "NoExecute",
+                            "tolerationSeconds": 300
+                        },
+                        {
+                            "key": "node.kubernetes.io/unreachable",
+                            "operator": "Exists",
+                            "effect": "NoExecute",
+                            "tolerationSeconds": 300
+                        }
+                    ],
+                    "priority": 0,
+                    "enableServiceLinks": true
+                },
+                "status": {
+                    "phase": "Running",
+                    "conditions": [
+                        {
+                            "type": "Initialized",
+                            "status": "True",
+                            "lastProbeTime": null,
+                            "lastTransitionTime": "2020-02-07T10:55:48Z"
+                        },
+                        {
+                            "type": "Ready",
+                            "status": "True",
+                            "lastProbeTime": null,
+                            "lastTransitionTime": "2020-02-14T12:21:02Z"
+                        },
+                        {
+                            "type": "ContainersReady",
+                            "status": "True",
+                            "lastProbeTime": null,
+                            "lastTransitionTime": "2020-02-14T12:21:02Z"
+                        },
+                        {
+                            "type": "PodScheduled",
+                            "status": "True",
+                            "lastProbeTime": null,
+                            "lastTransitionTime": "2020-02-07T10:55:48Z"
+                        }
+                    ],
+                    "hostIP": "192.168.39.40",
+                    "podIP": "172.17.0.11",
+                    "podIPs": [
+                        {
+                            "ip": "172.17.0.11"
+                        }
+                    ],
+                    "startTime": "2020-02-07T10:55:48Z",
+                    "containerStatuses": [
+                        {
+                            "name": "java",
+                            "state": {
+                                "running": {
+                                    "startedAt": "2020-02-14T12:20:55Z"
+                                }
+                            },
+                            "lastState": {
+                                "terminated": {
+                                    "exitCode": 137,
+                                    "reason": "Error",
+                                    "startedAt": "2020-02-10T11:29:12Z",
+                                    "finishedAt": "2020-02-10T15:53:31Z",
+                                    "containerID": "docker://1363f2d5d6b3fd6759c1e7eb7c64d251c237a7314ee769b538f3fd77d496ba13"
+                                }
+                            },
+                            "ready": true,
+                            "restartCount": 3,
+                            "image": "silvadanielum/java:latestV10",
+                            "imageID": "docker-pullable://silvadanielum/java@sha256:ea376ad3dd2f9fd58d0e2afc471cb28ebe1895526a17cfdaa4fa64afa8aed65c",
+                            "containerID": "docker://b00b7befd6d8b777d3efed697bb5a9a106a678c19656f32c9265f3dada43fac0",
+                            "started": true
+                        }
+                    ],
+                    "qosClass": "BestEffort"
+                }
+            },
             {
-                "name": "default-token-vdxl2",
-                "secret": {
-                    "secretName": "default-token-vdxl2",
-                    "defaultMode": 420
+                "metadata": {
+                    "name": "postgres-6dfb4c9b7c-npqps",
+                    "generateName": "postgres-6dfb4c9b7c-",
+                    "namespace": "default",
+                    "selfLink": "/api/v1/namespaces/default/pods/postgres-6dfb4c9b7c-npqps",
+                    "uid": "052f6f74-19d1-49a4-b1e4-272186ad4e69",
+                    "resourceVersion": "209300",
+                    "creationTimestamp": "2020-02-07T10:53:25Z",
+                    "labels": {
+                        "app": "postgres",
+                        "pod-template-hash": "6dfb4c9b7c"
+                    },
+                    "ownerReferences": [
+                        {
+                            "apiVersion": "apps/v1",
+                            "kind": "ReplicaSet",
+                            "name": "postgres-6dfb4c9b7c",
+                            "uid": "010a7f67-5528-4fcf-8248-20af2149d661",
+                            "controller": true,
+                            "blockOwnerDeletion": true
+                        }
+                    ]
+                },
+                "spec": {
+                    "volumes": [
+                        {
+                            "name": "default-token-vdxl2",
+                            "secret": {
+                                "secretName": "default-token-vdxl2",
+                                "defaultMode": 420
+                            }
+                        }
+                    ],
+                    "containers": [
+                        {
+                            "name": "postgres",
+                            "image": "silvadanielum/postgresimage:latestV14",
+                            "ports": [
+                                {
+                                    "containerPort": 5432,
+                                    "protocol": "TCP"
+                                }
+                            ],
+                            "resources": {},
+                            "volumeMounts": [
+                                {
+                                    "name": "default-token-vdxl2",
+                                    "readOnly": true,
+                                    "mountPath": "/var/run/secrets/kubernetes.io/serviceaccount"
+                                }
+                            ],
+                            "terminationMessagePath": "/dev/termination-log",
+                            "terminationMessagePolicy": "File",
+                            "imagePullPolicy": "IfNotPresent"
+                        }
+                    ],
+                    "restartPolicy": "Always",
+                    "terminationGracePeriodSeconds": 30,
+                    "dnsPolicy": "ClusterFirst",
+                    "serviceAccountName": "default",
+                    "serviceAccount": "default",
+                    "nodeName": "minikube",
+                    "securityContext": {},
+                    "schedulerName": "default-scheduler",
+                    "tolerations": [
+                        {
+                            "key": "node.kubernetes.io/not-ready",
+                            "operator": "Exists",
+                            "effect": "NoExecute",
+                            "tolerationSeconds": 300
+                        },
+                        {
+                            "key": "node.kubernetes.io/unreachable",
+                            "operator": "Exists",
+                            "effect": "NoExecute",
+                            "tolerationSeconds": 300
+                        }
+                    ],
+                    "priority": 0,
+                    "enableServiceLinks": true
+                },
+                "status": {
+                    "phase": "Running",
+                    "conditions": [
+                        {
+                            "type": "Initialized",
+                            "status": "True",
+                            "lastProbeTime": null,
+                            "lastTransitionTime": "2020-02-07T10:53:25Z"
+                        },
+                        {
+                            "type": "Ready",
+                            "status": "True",
+                            "lastProbeTime": null,
+                            "lastTransitionTime": "2020-02-14T12:21:02Z"
+                        },
+                        {
+                            "type": "ContainersReady",
+                            "status": "True",
+                            "lastProbeTime": null,
+                            "lastTransitionTime": "2020-02-14T12:21:02Z"
+                        },
+                        {
+                            "type": "PodScheduled",
+                            "status": "True",
+                            "lastProbeTime": null,
+                            "lastTransitionTime": "2020-02-07T10:53:25Z"
+                        }
+                    ],
+                    "hostIP": "192.168.39.40",
+                    "podIP": "172.17.0.10",
+                    "podIPs": [
+                        {
+                            "ip": "172.17.0.10"
+                        }
+                    ],
+                    "startTime": "2020-02-07T10:53:25Z",
+                    "containerStatuses": [
+                        {
+                            "name": "postgres",
+                            "state": {
+                                "running": {
+                                    "startedAt": "2020-02-14T12:20:59Z"
+                                }
+                            },
+                            "lastState": {
+                                "terminated": {
+                                    "exitCode": 0,
+                                    "reason": "Completed",
+                                    "startedAt": "2020-02-10T11:29:15Z",
+                                    "finishedAt": "2020-02-10T15:53:27Z",
+                                    "containerID": "docker://fe66707b8b428748f13293a4dd400ec97d90e0344e2e3201c399f384d9fbf6f0"
+                                }
+                            },
+                            "ready": true,
+                            "restartCount": 3,
+                            "image": "silvadanielum/postgresimage:latestV14",
+                            "imageID": "docker-pullable://silvadanielum/postgresimage@sha256:28f3b6de24365d15f085f14ddf0e1aba4cfb68f75279614a9648900645ac2e18",
+                            "containerID": "docker://7fbe53278faf9424a04edc9821e25e0c5646414be3a51ee63855056031a30ec0",
+                            "started": true
+                        }
+                    ],
+                    "qosClass": "BestEffort"
+                }
+            },
+            {
+                "metadata": {
+                    "name": "postgres1-7df4785f68-8dp2z",
+                    "generateName": "postgres1-7df4785f68-",
+                    "namespace": "default",
+                    "selfLink": "/api/v1/namespaces/default/pods/postgres1-7df4785f68-8dp2z",
+                    "uid": "58c7411f-7ae4-48cd-864e-7e7b79753fee",
+                    "resourceVersion": "209297",
+                    "creationTimestamp": "2020-02-07T11:08:52Z",
+                    "labels": {
+                        "app": "postgres",
+                        "pod-template-hash": "7df4785f68"
+                    },
+                    "ownerReferences": [
+                        {
+                            "apiVersion": "apps/v1",
+                            "kind": "ReplicaSet",
+                            "name": "postgres1-7df4785f68",
+                            "uid": "972955b6-c579-4745-a13a-4c766ad169ba",
+                            "controller": true,
+                            "blockOwnerDeletion": true
+                        }
+                    ]
+                },
+                "spec": {
+                    "volumes": [
+                        {
+                            "name": "default-token-vdxl2",
+                            "secret": {
+                                "secretName": "default-token-vdxl2",
+                                "defaultMode": 420
+                            }
+                        }
+                    ],
+                    "containers": [
+                        {
+                            "name": "postgres1",
+                            "image": "silvadanielum/postgresbackup:latestV17",
+                            "ports": [
+                                {
+                                    "containerPort": 5432,
+                                    "protocol": "TCP"
+                                }
+                            ],
+                            "resources": {},
+                            "volumeMounts": [
+                                {
+                                    "name": "default-token-vdxl2",
+                                    "readOnly": true,
+                                    "mountPath": "/var/run/secrets/kubernetes.io/serviceaccount"
+                                }
+                            ],
+                            "terminationMessagePath": "/dev/termination-log",
+                            "terminationMessagePolicy": "File",
+                            "imagePullPolicy": "IfNotPresent"
+                        }
+                    ],
+                    "restartPolicy": "Always",
+                    "terminationGracePeriodSeconds": 30,
+                    "dnsPolicy": "ClusterFirst",
+                    "serviceAccountName": "default",
+                    "serviceAccount": "default",
+                    "nodeName": "minikube",
+                    "securityContext": {},
+                    "schedulerName": "default-scheduler",
+                    "tolerations": [
+                        {
+                            "key": "node.kubernetes.io/not-ready",
+                            "operator": "Exists",
+                            "effect": "NoExecute",
+                            "tolerationSeconds": 300
+                        },
+                        {
+                            "key": "node.kubernetes.io/unreachable",
+                            "operator": "Exists",
+                            "effect": "NoExecute",
+                            "tolerationSeconds": 300
+                        }
+                    ],
+                    "priority": 0,
+                    "enableServiceLinks": true
+                },
+                "status": {
+                    "phase": "Running",
+                    "conditions": [
+                        {
+                            "type": "Initialized",
+                            "status": "True",
+                            "lastProbeTime": null,
+                            "lastTransitionTime": "2020-02-07T11:08:53Z"
+                        },
+                        {
+                            "type": "Ready",
+                            "status": "True",
+                            "lastProbeTime": null,
+                            "lastTransitionTime": "2020-02-14T12:21:02Z"
+                        },
+                        {
+                            "type": "ContainersReady",
+                            "status": "True",
+                            "lastProbeTime": null,
+                            "lastTransitionTime": "2020-02-14T12:21:02Z"
+                        },
+                        {
+                            "type": "PodScheduled",
+                            "status": "True",
+                            "lastProbeTime": null,
+                            "lastTransitionTime": "2020-02-07T11:08:52Z"
+                        }
+                    ],
+                    "hostIP": "192.168.39.40",
+                    "podIP": "172.17.0.12",
+                    "podIPs": [
+                        {
+                            "ip": "172.17.0.12"
+                        }
+                    ],
+                    "startTime": "2020-02-07T11:08:53Z",
+                    "containerStatuses": [
+                        {
+                            "name": "postgres1",
+                            "state": {
+                                "running": {
+                                    "startedAt": "2020-02-14T12:20:59Z"
+                                }
+                            },
+                            "lastState": {
+                                "terminated": {
+                                    "exitCode": 137,
+                                    "reason": "Error",
+                                    "startedAt": "2020-02-10T11:29:15Z",
+                                    "finishedAt": "2020-02-10T15:53:31Z",
+                                    "containerID": "docker://1c66d09813b7d56be1c883a0d382bff277f5f3239196666b9d5155b7014d061a"
+                                }
+                            },
+                            "ready": true,
+                            "restartCount": 3,
+                            "image": "silvadanielum/postgresbackup:latestV17",
+                            "imageID": "docker-pullable://silvadanielum/postgresbackup@sha256:7e665c81f7460633e5fd285f693940d30260b9cdd3dd03b01096b21410212192",
+                            "containerID": "docker://5b33ff8175cdd602541d9805f3127ef71134fa274c23ce05db9ed3709c5dd5e1",
+                            "started": true
+                        }
+                    ],
+                    "qosClass": "BestEffort"
+                }
+            },
+            {
+                "metadata": {
+                    "name": "tomcat-deployment-b4788ff84-v85jr",
+                    "generateName": "tomcat-deployment-b4788ff84-",
+                    "namespace": "default",
+                    "selfLink": "/api/v1/namespaces/default/pods/tomcat-deployment-b4788ff84-v85jr",
+                    "uid": "b5b496b0-2733-473c-9032-895728b143a6",
+                    "resourceVersion": "211795",
+                    "creationTimestamp": "2020-02-14T12:53:51Z",
+                    "labels": {
+                        "app": "tomcat",
+                        "pod-template-hash": "b4788ff84"
+                    },
+                    "ownerReferences": [
+                        {
+                            "apiVersion": "apps/v1",
+                            "kind": "ReplicaSet",
+                            "name": "tomcat-deployment-b4788ff84",
+                            "uid": "9af26205-b05b-4c26-b81a-7edbcd46791c",
+                            "controller": true,
+                            "blockOwnerDeletion": true
+                        }
+                    ]
+                },
+                "spec": {
+                    "volumes": [
+                        {
+                            "name": "default-token-vdxl2",
+                            "secret": {
+                                "secretName": "default-token-vdxl2",
+                                "defaultMode": 420
+                            }
+                        }
+                    ],
+                    "containers": [
+                        {
+                            "name": "tomcat",
+                            "image": "tomcat:9.0",
+                            "ports": [
+                                {
+                                    "containerPort": 8080,
+                                    "protocol": "TCP"
+                                }
+                            ],
+                            "resources": {
+                                "requests": {
+                                    "cpu": "100m",
+                                    "memory": "100Mi"
+                                }
+                            },
+                            "volumeMounts": [
+                                {
+                                    "name": "default-token-vdxl2",
+                                    "readOnly": true,
+                                    "mountPath": "/var/run/secrets/kubernetes.io/serviceaccount"
+                                }
+                            ],
+                            "terminationMessagePath": "/dev/termination-log",
+                            "terminationMessagePolicy": "File",
+                            "imagePullPolicy": "IfNotPresent"
+                        }
+                    ],
+                    "restartPolicy": "Always",
+                    "terminationGracePeriodSeconds": 30,
+                    "dnsPolicy": "ClusterFirst",
+                    "serviceAccountName": "default",
+                    "serviceAccount": "default",
+                    "nodeName": "minikube",
+                    "securityContext": {},
+                    "schedulerName": "default-scheduler",
+                    "tolerations": [
+                        {
+                            "key": "node.kubernetes.io/not-ready",
+                            "operator": "Exists",
+                            "effect": "NoExecute",
+                            "tolerationSeconds": 300
+                        },
+                        {
+                            "key": "node.kubernetes.io/unreachable",
+                            "operator": "Exists",
+                            "effect": "NoExecute",
+                            "tolerationSeconds": 300
+                        }
+                    ],
+                    "priority": 0,
+                    "enableServiceLinks": true
+                },
+                "status": {
+                    "phase": "Running",
+                    "conditions": [
+                        {
+                            "type": "Initialized",
+                            "status": "True",
+                            "lastProbeTime": null,
+                            "lastTransitionTime": "2020-02-14T12:53:52Z"
+                        },
+                        {
+                            "type": "Ready",
+                            "status": "True",
+                            "lastProbeTime": null,
+                            "lastTransitionTime": "2020-02-14T12:54:09Z"
+                        },
+                        {
+                            "type": "ContainersReady",
+                            "status": "True",
+                            "lastProbeTime": null,
+                            "lastTransitionTime": "2020-02-14T12:54:09Z"
+                        },
+                        {
+                            "type": "PodScheduled",
+                            "status": "True",
+                            "lastProbeTime": null,
+                            "lastTransitionTime": "2020-02-14T12:53:52Z"
+                        }
+                    ],
+                    "hostIP": "192.168.39.40",
+                    "podIP": "172.17.0.3",
+                    "podIPs": [
+                        {
+                            "ip": "172.17.0.3"
+                        }
+                    ],
+                    "startTime": "2020-02-14T12:53:52Z",
+                    "containerStatuses": [
+                        {
+                            "name": "tomcat",
+                            "state": {
+                                "running": {
+                                    "startedAt": "2020-02-14T12:54:05Z"
+                                }
+                            },
+                            "lastState": {},
+                            "ready": true,
+                            "restartCount": 0,
+                            "image": "tomcat:9.0",
+                            "imageID": "docker-pullable://tomcat@sha256:0562c9251a4b786c9525a7574b57ec714de066aad31fea536dea19580e761bd3",
+                            "containerID": "docker://a9b5110ccabbbe101e2067ece5451f1ff15c17ed444e2f63bb62ef6c75051147",
+                            "started": true
+                        }
+                    ],
+                    "qosClass": "Burstable"
+                }
+            },
+            {
+                "metadata": {
+                    "name": "tomcat-deployment-b4788ff84-zx9bv",
+                    "generateName": "tomcat-deployment-b4788ff84-",
+                    "namespace": "default",
+                    "selfLink": "/api/v1/namespaces/default/pods/tomcat-deployment-b4788ff84-zx9bv",
+                    "uid": "1e0217fa-c70c-4b9b-92ae-6e2f4b831147",
+                    "resourceVersion": "211812",
+                    "creationTimestamp": "2020-02-14T12:53:52Z",
+                    "labels": {
+                        "app": "tomcat",
+                        "pod-template-hash": "b4788ff84"
+                    },
+                    "ownerReferences": [
+                        {
+                            "apiVersion": "apps/v1",
+                            "kind": "ReplicaSet",
+                            "name": "tomcat-deployment-b4788ff84",
+                            "uid": "9af26205-b05b-4c26-b81a-7edbcd46791c",
+                            "controller": true,
+                            "blockOwnerDeletion": true
+                        }
+                    ]
+                },
+                "spec": {
+                    "volumes": [
+                        {
+                            "name": "default-token-vdxl2",
+                            "secret": {
+                                "secretName": "default-token-vdxl2",
+                                "defaultMode": 420
+                            }
+                        }
+                    ],
+                    "containers": [
+                        {
+                            "name": "tomcat",
+                            "image": "tomcat:9.0",
+                            "ports": [
+                                {
+                                    "containerPort": 8080,
+                                    "protocol": "TCP"
+                                }
+                            ],
+                            "resources": {
+                                "requests": {
+                                    "cpu": "100m",
+                                    "memory": "100Mi"
+                                }
+                            },
+                            "volumeMounts": [
+                                {
+                                    "name": "default-token-vdxl2",
+                                    "readOnly": true,
+                                    "mountPath": "/var/run/secrets/kubernetes.io/serviceaccount"
+                                }
+                            ],
+                            "terminationMessagePath": "/dev/termination-log",
+                            "terminationMessagePolicy": "File",
+                            "imagePullPolicy": "IfNotPresent"
+                        }
+                    ],
+                    "restartPolicy": "Always",
+                    "terminationGracePeriodSeconds": 30,
+                    "dnsPolicy": "ClusterFirst",
+                    "serviceAccountName": "default",
+                    "serviceAccount": "default",
+                    "nodeName": "minikube",
+                    "securityContext": {},
+                    "schedulerName": "default-scheduler",
+                    "tolerations": [
+                        {
+                            "key": "node.kubernetes.io/not-ready",
+                            "operator": "Exists",
+                            "effect": "NoExecute",
+                            "tolerationSeconds": 300
+                        },
+                        {
+                            "key": "node.kubernetes.io/unreachable",
+                            "operator": "Exists",
+                            "effect": "NoExecute",
+                            "tolerationSeconds": 300
+                        }
+                    ],
+                    "priority": 0,
+                    "enableServiceLinks": true
+                },
+                "status": {
+                    "phase": "Running",
+                    "conditions": [
+                        {
+                            "type": "Initialized",
+                            "status": "True",
+                            "lastProbeTime": null,
+                            "lastTransitionTime": "2020-02-14T12:53:53Z"
+                        },
+                        {
+                            "type": "Ready",
+                            "status": "True",
+                            "lastProbeTime": null,
+                            "lastTransitionTime": "2020-02-14T12:54:10Z"
+                        },
+                        {
+                            "type": "ContainersReady",
+                            "status": "True",
+                            "lastProbeTime": null,
+                            "lastTransitionTime": "2020-02-14T12:54:10Z"
+                        },
+                        {
+                            "type": "PodScheduled",
+                            "status": "True",
+                            "lastProbeTime": null,
+                            "lastTransitionTime": "2020-02-14T12:53:52Z"
+                        }
+                    ],
+                    "hostIP": "192.168.39.40",
+                    "podIP": "172.17.0.13",
+                    "podIPs": [
+                        {
+                            "ip": "172.17.0.13"
+                        }
+                    ],
+                    "startTime": "2020-02-14T12:53:53Z",
+                    "containerStatuses": [
+                        {
+                            "name": "tomcat",
+                            "state": {
+                                "running": {
+                                    "startedAt": "2020-02-14T12:54:09Z"
+                                }
+                            },
+                            "lastState": {},
+                            "ready": true,
+                            "restartCount": 0,
+                            "image": "tomcat:9.0",
+                            "imageID": "docker-pullable://tomcat@sha256:0562c9251a4b786c9525a7574b57ec714de066aad31fea536dea19580e761bd3",
+                            "containerID": "docker://b53c94710427d1224143c1b2c3c91c1eedf2e47936a65678b6ba18d7b690fabb",
+                            "started": true
+                        }
+                    ],
+                    "qosClass": "Burstable"
+                }
+            },
+            {
+                "metadata": {
+                    "name": "xd-7c5c799b68-tcm79",
+                    "generateName": "xd-7c5c799b68-",
+                    "namespace": "default",
+                    "selfLink": "/api/v1/namespaces/default/pods/xd-7c5c799b68-tcm79",
+                    "uid": "36028d89-baf8-4b4a-9a6e-1c9cc55390cd",
+                    "resourceVersion": "209281",
+                    "creationTimestamp": "2019-11-11T17:03:51Z",
+                    "labels": {
+                        "pod-template-hash": "7c5c799b68",
+                        "run": "xd"
+                    },
+                    "ownerReferences": [
+                        {
+                            "apiVersion": "apps/v1",
+                            "kind": "ReplicaSet",
+                            "name": "xd-7c5c799b68",
+                            "uid": "2f0db3b5-7218-4d13-b7a9-51583c5656d9",
+                            "controller": true,
+                            "blockOwnerDeletion": true
+                        }
+                    ]
+                },
+                "spec": {
+                    "volumes": [
+                        {
+                            "name": "default-token-vdxl2",
+                            "secret": {
+                                "secretName": "default-token-vdxl2",
+                                "defaultMode": 420
+                            }
+                        }
+                    ],
+                    "containers": [
+                        {
+                            "name": "xd",
+                            "image": "testing",
+                            "resources": {},
+                            "volumeMounts": [
+                                {
+                                    "name": "default-token-vdxl2",
+                                    "readOnly": true,
+                                    "mountPath": "/var/run/secrets/kubernetes.io/serviceaccount"
+                                }
+                            ],
+                            "terminationMessagePath": "/dev/termination-log",
+                            "terminationMessagePolicy": "File",
+                            "imagePullPolicy": "Never"
+                        }
+                    ],
+                    "restartPolicy": "Always",
+                    "terminationGracePeriodSeconds": 30,
+                    "dnsPolicy": "ClusterFirst",
+                    "serviceAccountName": "default",
+                    "serviceAccount": "default",
+                    "nodeName": "minikube",
+                    "securityContext": {},
+                    "schedulerName": "default-scheduler",
+                    "tolerations": [
+                        {
+                            "key": "node.kubernetes.io/not-ready",
+                            "operator": "Exists",
+                            "effect": "NoExecute",
+                            "tolerationSeconds": 300
+                        },
+                        {
+                            "key": "node.kubernetes.io/unreachable",
+                            "operator": "Exists",
+                            "effect": "NoExecute",
+                            "tolerationSeconds": 300
+                        }
+                    ],
+                    "priority": 0,
+                    "enableServiceLinks": true
+                },
+                "status": {
+                    "phase": "Pending",
+                    "conditions": [
+                        {
+                            "type": "Initialized",
+                            "status": "True",
+                            "lastProbeTime": null,
+                            "lastTransitionTime": "2019-11-11T17:03:52Z"
+                        },
+                        {
+                            "type": "Ready",
+                            "status": "False",
+                            "lastProbeTime": null,
+                            "lastTransitionTime": "2019-11-11T17:03:52Z",
+                            "reason": "ContainersNotReady",
+                            "message": "containers with unready status: [xd]"
+                        },
+                        {
+                            "type": "ContainersReady",
+                            "status": "False",
+                            "lastProbeTime": null,
+                            "lastTransitionTime": "2019-11-11T17:03:52Z",
+                            "reason": "ContainersNotReady",
+                            "message": "containers with unready status: [xd]"
+                        },
+                        {
+                            "type": "PodScheduled",
+                            "status": "True",
+                            "lastProbeTime": null,
+                            "lastTransitionTime": "2019-11-11T17:03:51Z"
+                        }
+                    ],
+                    "hostIP": "192.168.39.40",
+                    "podIP": "172.17.0.8",
+                    "podIPs": [
+                        {
+                            "ip": "172.17.0.8"
+                        }
+                    ],
+                    "startTime": "2019-11-11T17:03:52Z",
+                    "containerStatuses": [
+                        {
+                            "name": "xd",
+                            "state": {
+                                "waiting": {
+                                    "reason": "ErrImageNeverPull",
+                                    "message": "Container image \"testing\" is not present with pull policy of Never"
+                                }
+                            },
+                            "lastState": {},
+                            "ready": false,
+                            "restartCount": 0,
+                            "image": "testing",
+                            "imageID": "",
+                            "started": false
+                        }
+                    ],
+                    "qosClass": "BestEffort"
+                }
+            },
+            {
+                "metadata": {
+                    "name": "xd2-679f699d88-j48sw",
+                    "generateName": "xd2-679f699d88-",
+                    "namespace": "default",
+                    "selfLink": "/api/v1/namespaces/default/pods/xd2-679f699d88-j48sw",
+                    "uid": "94a9516a-657d-4a44-b70d-739705e104af",
+                    "resourceVersion": "209269",
+                    "creationTimestamp": "2019-11-11T17:04:18Z",
+                    "labels": {
+                        "pod-template-hash": "679f699d88",
+                        "run": "xd2"
+                    },
+                    "ownerReferences": [
+                        {
+                            "apiVersion": "apps/v1",
+                            "kind": "ReplicaSet",
+                            "name": "xd2-679f699d88",
+                            "uid": "67ab93d5-38bc-410c-ae4d-905923d71aed",
+                            "controller": true,
+                            "blockOwnerDeletion": true
+                        }
+                    ]
+                },
+                "spec": {
+                    "volumes": [
+                        {
+                            "name": "default-token-vdxl2",
+                            "secret": {
+                                "secretName": "default-token-vdxl2",
+                                "defaultMode": 420
+                            }
+                        }
+                    ],
+                    "containers": [
+                        {
+                            "name": "xd2",
+                            "image": "testopxd:0.0.1",
+                            "resources": {},
+                            "volumeMounts": [
+                                {
+                                    "name": "default-token-vdxl2",
+                                    "readOnly": true,
+                                    "mountPath": "/var/run/secrets/kubernetes.io/serviceaccount"
+                                }
+                            ],
+                            "terminationMessagePath": "/dev/termination-log",
+                            "terminationMessagePolicy": "File",
+                            "imagePullPolicy": "Never"
+                        }
+                    ],
+                    "restartPolicy": "Always",
+                    "terminationGracePeriodSeconds": 30,
+                    "dnsPolicy": "ClusterFirst",
+                    "serviceAccountName": "default",
+                    "serviceAccount": "default",
+                    "nodeName": "minikube",
+                    "securityContext": {},
+                    "schedulerName": "default-scheduler",
+                    "tolerations": [
+                        {
+                            "key": "node.kubernetes.io/not-ready",
+                            "operator": "Exists",
+                            "effect": "NoExecute",
+                            "tolerationSeconds": 300
+                        },
+                        {
+                            "key": "node.kubernetes.io/unreachable",
+                            "operator": "Exists",
+                            "effect": "NoExecute",
+                            "tolerationSeconds": 300
+                        }
+                    ],
+                    "priority": 0,
+                    "enableServiceLinks": true
+                },
+                "status": {
+                    "phase": "Pending",
+                    "conditions": [
+                        {
+                            "type": "Initialized",
+                            "status": "True",
+                            "lastProbeTime": null,
+                            "lastTransitionTime": "2019-11-11T17:04:19Z"
+                        },
+                        {
+                            "type": "Ready",
+                            "status": "False",
+                            "lastProbeTime": null,
+                            "lastTransitionTime": "2019-11-11T17:04:19Z",
+                            "reason": "ContainersNotReady",
+                            "message": "containers with unready status: [xd2]"
+                        },
+                        {
+                            "type": "ContainersReady",
+                            "status": "False",
+                            "lastProbeTime": null,
+                            "lastTransitionTime": "2019-11-11T17:04:19Z",
+                            "reason": "ContainersNotReady",
+                            "message": "containers with unready status: [xd2]"
+                        },
+                        {
+                            "type": "PodScheduled",
+                            "status": "True",
+                            "lastProbeTime": null,
+                            "lastTransitionTime": "2019-11-11T17:04:18Z"
+                        }
+                    ],
+                    "hostIP": "192.168.39.40",
+                    "podIP": "172.17.0.9",
+                    "podIPs": [
+                        {
+                            "ip": "172.17.0.9"
+                        }
+                    ],
+                    "startTime": "2019-11-11T17:04:19Z",
+                    "containerStatuses": [
+                        {
+                            "name": "xd2",
+                            "state": {
+                                "waiting": {
+                                    "reason": "ErrImageNeverPull",
+                                    "message": "Container image \"testopxd:0.0.1\" is not present with pull policy of Never"
+                                }
+                            },
+                            "lastState": {},
+                            "ready": false,
+                            "restartCount": 0,
+                            "image": "testopxd:0.0.1",
+                            "imageID": "",
+                            "started": false
+                        }
+                    ],
+                    "qosClass": "BestEffort"
                 }
             }
         ],
-        "containers": [
-            {
-                "name": "tomcat",
-                "image": "tomcat:9.0",
-                "ports": [
-                    {
-                        "containerPort": 8080,
-                        "protocol": "TCP"
-                    }
-                ],
-                "resources": {},
-                "volumeMounts": [
-                    {
-                        "name": "default-token-vdxl2",
-                        "readOnly": true,
-                        "mountPath": "/var/run/secrets/kubernetes.io/serviceaccount"
-                    }
-                ],
-                "terminationMessagePath": "/dev/termination-log",
-                "terminationMessagePolicy": "File",
-                "imagePullPolicy": "IfNotPresent"
-            }
-        ],
-        "restartPolicy": "Always",
-        "terminationGracePeriodSeconds": 30,
-        "dnsPolicy": "ClusterFirst",
-        "nodeSelector": {
-            "storageType": "ssd"
-        },
-        "serviceAccountName": "default",
-        "serviceAccount": "default",
-        "nodeName": "minikube",
-        "securityContext": {},
-        "schedulerName": "default-scheduler",
-        "tolerations": [
-            {
-                "key": "node.kubernetes.io/not-ready",
-                "operator": "Exists",
-                "effect": "NoExecute",
-                "tolerationSeconds": 300
-            },
-            {
-                "key": "node.kubernetes.io/unreachable",
-                "operator": "Exists",
-                "effect": "NoExecute",
-                "tolerationSeconds": 300
-            }
-        ],
-        "priority": 0,
-        "enableServiceLinks": true
-    },
-    "status": {
-        "phase": "Running",
-        "conditions": [
-            {
-                "type": "Initialized",
-                "status": "True",
-                "lastProbeTime": null,
-                "lastTransitionTime": "2019-10-29T11:08:36Z"
-            },
-            {
-                "type": "Ready",
-                "status": "True",
-                "lastProbeTime": null,
-                "lastTransitionTime": "2020-02-08T10:18:32Z"
-            },
-            {
-                "type": "ContainersReady",
-                "status": "True",
-                "lastProbeTime": null,
-                "lastTransitionTime": "2020-02-08T10:18:32Z"
-            },
-            {
-                "type": "PodScheduled",
-                "status": "True",
-                "lastProbeTime": null,
-                "lastTransitionTime": "2019-10-29T11:08:36Z"
-            }
-        ],
-        "hostIP": "192.168.39.40",
-        "podIP": "172.17.0.6",
-        "podIPs": [
-            {
-                "ip": "172.17.0.6"
-            }
-        ],
-        "startTime": "2019-10-29T11:08:36Z",
-        "containerStatuses": [
-            {
-                "name": "tomcat",
-                "state": {
-                    "running": {
-                        "startedAt": "2020-02-08T10:18:17Z"
-                    }
-                },
-                "lastState": {
-                    "terminated": {
-                        "exitCode": 143,
-                        "reason": "Error",
-                        "startedAt": "2020-02-07T10:03:45Z",
-                        "finishedAt": "2020-02-07T11:46:51Z",
-                        "containerID": "docker://feacbf0d81d62114e49e6d4f926c4a837159b58772c6927b04e163eb1cc2b1c3"
-                    }
-                },
-                "ready": true,
-                "restartCount": 18,
-                "image": "tomcat:9.0",
-                "imageID": "docker-pullable://tomcat@sha256:0562c9251a4b786c9525a7574b57ec714de066aad31fea536dea19580e761bd3",
-                "containerID": "docker://81ae5504265594220d8ed52d5e783e6b84c65cdce75bb9582749621cba069c0b",
-                "started": true
-            }
-        ],
-        "qosClass": "BestEffort"
-    },
-    "log": {}
-}
+        "log": {}
+    }
+]
