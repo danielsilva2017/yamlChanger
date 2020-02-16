@@ -39,11 +39,15 @@ router.get('/:deployment',(req,res,next)=>{
         }
     });
 });
+
+//Changes the number of replicas
 router.post('/replicas/:deployment/:id',(req,res,next)=>{
     const name = req.params.deployment
     const id = req.params.id
     client.deployments.get(name,function (err, data) {
         if(!err){
+            const novo = {spec:{replicas:id}}
+            extend(true,data,novo)
             data.spec.replicas=parseInt(id)
             client.deployments.update(name,data,function (err, data) {
                 if(!err){
@@ -61,13 +65,15 @@ router.post('/replicas/:deployment/:id',(req,res,next)=>{
     });
 });
 
+//Changes the limit of cpu
 router.post('/resources/limits/cpu/:deployment/:id',(req,res,next)=>{
     const name = req.params.deployment
     const id = req.params.id
     client.deployments.get(name,function (err, data) {
         if(!err){
-            console.log("here")
-            data.spec.template.spec.containers[0].resources.limits.cpu=parseInt(id)+"m"
+            const final=id+"m"
+            const novo={spec:{template:{spec:{containers:[{resources:{limits:{cpu:final}}}]}}}}
+            extend(true,data,novo)
             client.deployments.update(name,data,function (err, data) {
                 if(!err){
                     console.log("done")
@@ -84,13 +90,17 @@ router.post('/resources/limits/cpu/:deployment/:id',(req,res,next)=>{
     });
 });
 
+
+//Changes the limit of memory
 router.post('/resources/limits/memory/:deployment/:id',(req,res,next)=>{
     const name = req.params.deployment
     const id = req.params.id
     client.deployments.get(name,function (err, data) {
         if(!err){
             console.log("here")
-            data.spec.template.spec.containers[0].resources.limits.memory=parseInt(id)+"Mi"
+            const final = id+"Mi"
+            const novo={spec:{template:{spec:{containers:[{resources:{limits:{memory:final}}}]}}}}
+            extend(true,data,novo)
             client.deployments.update(name,data,function (err, data) {
                 if(!err){
                     console.log("done")
@@ -107,47 +117,44 @@ router.post('/resources/limits/memory/:deployment/:id',(req,res,next)=>{
     });
 });
 
-
+//Changes the cpu requests
 router.post('/resources/requests/cpu/:deployment/:id',(req,res,next)=>{
     const name = req.params.deployment
     const id = req.params.id
     client.deployments.get(name,function (err, data) {
         if(!err){
             console.log("here")
-
-            if(data.hasOwnProperty(data.spec.template.spec.containers[0].resources.requests)){
-                if(data.hasOwnProperty(data.spec.template.spec.containers[0].resources.requests.cpu)){
-                    data.spec.template.spec.containers[0].resources.requests.cpu=parseInt(id)+"Mi"
+            const final=id+"m"
+            const novo={spec:{template:{spec:{containers:[{resources:{requests:{cpu:final}}}]}}}}
+            extend(true,data,novo)
+            fs.writeFile("results/erross.json", JSON.stringify(data, null, 4));
+            
+             
+            client.deployments.update(name,data,function (err, data) {
+                if(!err){
+                    console.log("done")
+                    res.status(200).json(data)
                 }
                 else{
+                    console.log("ups"+JSON.stringify(err))
                 }
-                
-            }
-            else{
-                const final=id+"m"
-                const novo={
-                    spec:{
-                        template:{
-                            spec:{
-                                containers:[
-                                    {
-                                        resources:{
-                                            requests:{
-                                                cpu:final
-                                            }
-                                        }
+            });
+        }
+        else{
+            console.log("Error")
+        }
+    });
+});
 
-                                    }
-                                ]
-                            }
-                        }
-                    }
-                        
-                }
-                extend(true,data,novo)
-                fs.writeFile("results/erross.json", JSON.stringify(data, null, 4));
-               
-            }   
+router.post('/resources/requests/memory/:deployment/:id',(req,res,next)=>{
+    const name = req.params.deployment
+    const id = req.params.id
+    client.deployments.get(name,function (err, data) {
+        if(!err){
+            const final=id+"Mi"
+            const novo={spec:{template:{spec:{containers:[{resources:{requests:{memory:final}}}]}}}}
+            extend(true,data,novo)
+            fs.writeFile("results/erross.json", JSON.stringify(data, null, 4)); 
             client.deployments.update(name,data,function (err, data) {
                 if(!err){
                     console.log("done")
