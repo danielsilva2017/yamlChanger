@@ -13,7 +13,7 @@ var client = new Client({
     namespace: 'default'
 });
 
-client.deployments = client.createCollection('deployments',null,null,{ apiPrefix : 'apis',namespaced: true});
+client.deployments = client.createCollection('replicasets',null,null,{ apiPrefix : 'apis',namespaced: true});
 
 
 router.get('/',(req,res,next)=>{
@@ -32,6 +32,7 @@ router.get('/xd/:test',(req,res,next)=>{
     res.status(200).json("estamos aqui")
    
 });
+
 router.get('/:deployment',(req,res,next)=>{
     const name = req.params.deployment
     client.deployments.get(name,function (err, data) {
@@ -90,7 +91,7 @@ router.post('/resources/limits/cpu/:deployment/:id',(req,res,next)=>{
             });
         }
         else{
-            console.log("Error")
+            console.log("Error"+JSON.stringify(err))
         }
     });
 });

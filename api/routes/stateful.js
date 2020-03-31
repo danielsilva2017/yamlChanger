@@ -13,7 +13,7 @@ var client = new Client({
     namespace: 'default'
 });
 
-client.deployments = client.createCollection('deployments',null,null,{ apiPrefix : 'apis',namespaced: true});
+client.deployments = client.createCollection('statefulsets',null,null,{ apiPrefix : 'apis',namespaced: true});
 
 
 router.get('/',(req,res,next)=>{
@@ -27,11 +27,7 @@ router.get('/',(req,res,next)=>{
     });
 });
 
-router.get('/xd/:test',(req,res,next)=>{
-    console.log("wow")
-    res.status(200).json("estamos aqui")
-   
-});
+
 router.get('/:deployment',(req,res,next)=>{
     const name = req.params.deployment
     client.deployments.get(name,function (err, data) {
@@ -65,7 +61,7 @@ router.post('/replicas/:deployment/:id',(req,res,next)=>{
             });
         }
         else{
-            console.log("Error"+JSON.stringify(err))
+            console.log("Error")
         }
     });
 });

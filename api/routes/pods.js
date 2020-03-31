@@ -25,7 +25,7 @@ router.get('/',(req,res,next)=>{
             res.status(200).json(data)
         }
         else{
-            console.log("Error")
+            console.log("Error"+JSON.stringify(err))
         }
     });
 });
