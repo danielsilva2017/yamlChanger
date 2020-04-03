@@ -61,7 +61,7 @@ router.post('/replicas/:deployment/:id',(req,res,next)=>{
                     res.status(200).json(data)
                 }
                 else{
-                    console.log("ups"+JSON.stringify(err))
+                    console.log("here m8"+JSON.stringify(err))
                 }
             });
         }

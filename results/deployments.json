@@ -5,10 +5,10 @@
         "name": "master",
         "namespace": "default",
         "selfLink": "/apis/apps/v1/namespaces/default/deployments/master",
-        "uid": "7bd19e9c-6f77-11ea-90cf-42010a840fd4",
-        "resourceVersion": "736",
-        "generation": 1,
-        "creationTimestamp": "2020-03-26T15:35:55Z",
+        "uid": "56f7a259-7504-11ea-8036-42010a840013",
+        "resourceVersion": "3278",
+        "generation": 2,
+        "creationTimestamp": "2020-04-02T17:06:48Z",
         "labels": {
             "app": "master"
         },
@@ -18,7 +18,7 @@
         }
     },
     "spec": {
-        "replicas": 1,
+        "replicas": 2,
         "selector": {
             "matchLabels": {
                 "app": "master"
@@ -80,27 +80,27 @@
         "progressDeadlineSeconds": 600
     },
     "status": {
-        "observedGeneration": 1,
-        "replicas": 1,
-        "updatedReplicas": 1,
-        "readyReplicas": 1,
-        "availableReplicas": 1,
+        "observedGeneration": 2,
+        "replicas": 2,
+        "updatedReplicas": 2,
+        "readyReplicas": 2,
+        "availableReplicas": 2,
         "conditions": [
-            {
-                "type": "Available",
-                "status": "True",
-                "lastUpdateTime": "2020-03-26T15:36:13Z",
-                "lastTransitionTime": "2020-03-26T15:36:13Z",
-                "reason": "MinimumReplicasAvailable",
-                "message": "Deployment has minimum availability."
-            },
             {
                 "type": "Progressing",
                 "status": "True",
-                "lastUpdateTime": "2020-03-26T15:36:13Z",
-                "lastTransitionTime": "2020-03-26T15:35:55Z",
+                "lastUpdateTime": "2020-04-02T17:07:06Z",
+                "lastTransitionTime": "2020-04-02T17:06:48Z",
                 "reason": "NewReplicaSetAvailable",
                 "message": "ReplicaSet \"master-5cc6c8d499\" has successfully progressed."
+            },
+            {
+                "type": "Available",
+                "status": "True",
+                "lastUpdateTime": "2020-04-02T17:28:45Z",
+                "lastTransitionTime": "2020-04-02T17:28:45Z",
+                "reason": "MinimumReplicasAvailable",
+                "message": "Deployment has minimum availability."
             }
         ]
     }

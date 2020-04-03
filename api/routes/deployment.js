@@ -2,8 +2,13 @@ const express = require('express');
 const extend = require('extend')
 const router = express.Router();
 const kub = require('../../client')
+const exec = require('child_process').exec;
+
+
 var Client = require('node-kubernetes-client');
 var fs = require('fs');
+
+var state="undefined"
 
 var client = new Client({
     protocol: 'http',
@@ -14,6 +19,40 @@ var client = new Client({
 });
 
 client.deployments = client.createCollection('deployments',null,null,{ apiPrefix : 'apis',namespaced: true});
+
+
+function execFunction(){
+    state="3"
+    exec('./stopagents.sh', { cwd: './../deployment/' }, (error, stdout, stderr) => {
+        console.log( stdout, stderr ); 
+        if (error) {
+            console.log("oh")
+            return;
+        }
+    });
+}
+
+function execInBetween(){
+    console.log("inside")
+    exec('./runscan.sh', { cwd: './../deployment/' }, (error, stdout, stderr) => {
+        console.log( stdout, stderr ); 
+        if (error) {
+            console.log("oh")
+            return;
+        }
+    });
+}
+function execLoad(){
+    console.log("inside")
+    state=4
+    exec('./loadresults.sh --clear agent.*.pickle', { cwd: './../deployment/' }, (error, stdout, stderr) => {
+        console.log( stdout, stderr ); 
+        if (error) {
+            console.log("oh")
+            return;
+        }
+    });
+}
 
 
 router.get('/',(req,res,next)=>{
@@ -45,8 +84,15 @@ router.get('/:deployment',(req,res,next)=>{
     });
 });
 
+router.get('/state/state',(req,res,next)=>{
+    console.log("wow")
+    res.status(200).json(state)
+   
+});
+
 //Changes the number of replicas
 router.post('/replicas/:deployment/:id',(req,res,next)=>{
+    state=1
     const name = req.params.deployment
     const id = req.params.id
     client.deployments.get(name,function (err, data) {
@@ -60,15 +106,37 @@ router.post('/replicas/:deployment/:id',(req,res,next)=>{
                     res.status(200).json(data)
                 }
                 else{
-                    console.log("ups"+JSON.stringify(err))
+                    console.log("ole"+JSON.stringify(err))
                 }
             });
+            console.log("im heresss")
+            
         }
         else{
             console.log("Error"+JSON.stringify(err))
         }
+      
     });
+    
+        exec('./startagents.sh', { cwd: './../deployment/' }, (error, stdout, stderr) => {
+            console.log( stdout, stderr ); 
+            state=2
+            if (error) {
+                console.log("oh")
+                return;
+            }
+        });
+        setTimeout(execInBetween,40000);
+        setTimeout(execFunction, 20000);
+        
+        execLoad()
+        
+
+
+    
 });
+
+
 
 //Changes the limit of cpu
 router.post('/resources/limits/cpu/:deployment/:id',(req,res,next)=>{
