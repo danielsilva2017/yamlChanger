@@ -1,59 +1,173 @@
 {
-    "kind": "Deployment",
+    "kind": "StatefulSet",
     "apiVersion": "apps/v1",
     "metadata": {
-        "name": "master",
+        "name": "cassandra",
         "namespace": "default",
-        "selfLink": "/apis/apps/v1/namespaces/default/deployments/master",
-        "uid": "a849fe57-74e6-11ea-8f26-42010a840fe6",
-        "resourceVersion": "824",
-        "generation": 1,
-        "creationTimestamp": "2020-04-02T13:34:20Z",
+        "selfLink": "/apis/apps/v1/namespaces/default/statefulsets/cassandra",
+        "uid": "09ca5afd-79a9-11ea-a9af-42010a840fc6",
+        "resourceVersion": "5921",
+        "generation": 10,
+        "creationTimestamp": "2020-04-08T14:55:50Z",
         "labels": {
-            "app": "master"
+            "app": "cassandra"
         },
         "annotations": {
-            "deployment.kubernetes.io/revision": "1",
-            "kubectl.kubernetes.io/last-applied-configuration": "{\"apiVersion\":\"apps/v1\",\"kind\":\"Deployment\",\"metadata\":{\"annotations\":{},\"labels\":{\"app\":\"master\"},\"name\":\"master\",\"namespace\":\"default\"},\"spec\":{\"selector\":{\"matchLabels\":{\"app\":\"master\"}},\"template\":{\"metadata\":{\"labels\":{\"app\":\"master\"}},\"spec\":{\"containers\":[{\"env\":[{\"name\":\"MASTER\",\"value\":\"spark://master:7077\"},{\"name\":\"SPARK_PUBLIC_DNS\",\"value\":\"master\"}],\"image\":\"gettyimages/spark\",\"name\":\"master\",\"resources\":{\"limits\":{\"cpu\":4,\"memory\":\"4Gi\"},\"requests\":{\"cpu\":\"0.5\",\"memory\":\"2Gi\"}}}],\"hostname\":\"master\",\"terminationGracePeriodSeconds\":1800}}}}\n"
+            "kubectl.kubernetes.io/last-applied-configuration": "{\"apiVersion\":\"apps/v1\",\"kind\":\"StatefulSet\",\"metadata\":{\"annotations\":{},\"labels\":{\"app\":\"cassandra\"},\"name\":\"cassandra\",\"namespace\":\"default\"},\"spec\":{\"replicas\":4,\"selector\":{\"matchLabels\":{\"app\":\"cassandra\"}},\"serviceName\":\"cassandra\",\"template\":{\"metadata\":{\"labels\":{\"app\":\"cassandra\"}},\"spec\":{\"containers\":[{\"env\":[{\"name\":\"MAX_HEAP_SIZE\",\"value\":\"4G\"},{\"name\":\"HEAP_NEWSIZE\",\"value\":\"1G\"},{\"name\":\"CASSANDRA_SEEDS\",\"value\":\"cassandra-0.cassandra.default.svc.cluster.local\"},{\"name\":\"CASSANDRA_CLUSTER_NAME\",\"value\":\"K8Demo\"},{\"name\":\"CASSANDRA_DC\",\"value\":\"DC1-K8Demo\"},{\"name\":\"CASSANDRA_RACK\",\"value\":\"Rack1-K8Demo\"},{\"name\":\"CASSANDRA_SEED_PROVIDER\",\"value\":\"io.k8s.cassandra.KubernetesSeedProvider\"},{\"name\":\"POD_IP\",\"valueFrom\":{\"fieldRef\":{\"fieldPath\":\"status.podIP\"}}}],\"image\":\"cassandra\",\"imagePullPolicy\":\"Always\",\"lifecycle\":{\"preStop\":{\"exec\":{\"command\":[\"/bin/sh\",\"-c\",\"nodetool drain\"]}}},\"name\":\"cassandra\",\"ports\":[{\"containerPort\":7000,\"name\":\"intra-node\"},{\"containerPort\":7001,\"name\":\"tls-intra-node\"},{\"containerPort\":7199,\"name\":\"jmx\"},{\"containerPort\":9042,\"name\":\"cql\"}],\"readinessProbe\":{\"exec\":{\"command\":[\"/bin/bash\",\"-c\",\"cat \\u003c /dev/null \\u003e /dev/tcp/${POD_IP}/9042\"]},\"initialDelaySeconds\":15,\"timeoutSeconds\":5},\"resources\":{\"limits\":{\"cpu\":4,\"memory\":\"8Gi\"},\"requests\":{\"cpu\":\"0.5\",\"memory\":\"4Gi\"}},\"securityContext\":{\"capabilities\":{\"add\":[\"IPC_LOCK\"]}}},{\"command\":[\"bin/spark-class\",\"org.apache.spark.deploy.worker.Worker\",\"spark://master:7077\"],\"env\":[{\"name\":\"SPARK_WORKER_CORES\",\"value\":\"1\"},{\"name\":\"SPARK_WORKER_MEMORY\",\"value\":\"2g\"}],\"image\":\"gettyimages/spark\",\"name\":\"worker\",\"resources\":{\"limits\":{\"cpu\":1,\"memory\":\"2Gi\"},\"requests\":{\"cpu\":\"500m\",\"memory\":\"500Mi\"}}}],\"terminationGracePeriodSeconds\":1800}}}}\n"
         }
     },
     "spec": {
-        "replicas": 1,
+        "replicas": 2,
         "selector": {
             "matchLabels": {
-                "app": "master"
+                "app": "cassandra"
             }
         },
         "template": {
             "metadata": {
                 "creationTimestamp": null,
                 "labels": {
-                    "app": "master"
+                    "app": "cassandra"
                 }
             },
             "spec": {
                 "containers": [
                     {
-                        "name": "master",
-                        "image": "gettyimages/spark",
-                        "env": [
+                        "name": "cassandra",
+                        "image": "cassandra",
+                        "ports": [
                             {
-                                "name": "MASTER",
-                                "value": "spark://master:7077"
+                                "name": "intra-node",
+                                "containerPort": 7000,
+                                "protocol": "TCP"
                             },
                             {
-                                "name": "SPARK_PUBLIC_DNS",
-                                "value": "master"
+                                "name": "tls-intra-node",
+                                "containerPort": 7001,
+                                "protocol": "TCP"
+                            },
+                            {
+                                "name": "jmx",
+                                "containerPort": 7199,
+                                "protocol": "TCP"
+                            },
+                            {
+                                "name": "cql",
+                                "containerPort": 9042,
+                                "protocol": "TCP"
+                            }
+                        ],
+                        "env": [
+                            {
+                                "name": "MAX_HEAP_SIZE",
+                                "value": "4G"
+                            },
+                            {
+                                "name": "HEAP_NEWSIZE",
+                                "value": "1G"
+                            },
+                            {
+                                "name": "CASSANDRA_SEEDS",
+                                "value": "cassandra-0.cassandra.default.svc.cluster.local"
+                            },
+                            {
+                                "name": "CASSANDRA_CLUSTER_NAME",
+                                "value": "K8Demo"
+                            },
+                            {
+                                "name": "CASSANDRA_DC",
+                                "value": "DC1-K8Demo"
+                            },
+                            {
+                                "name": "CASSANDRA_RACK",
+                                "value": "Rack1-K8Demo"
+                            },
+                            {
+                                "name": "CASSANDRA_SEED_PROVIDER",
+                                "value": "io.k8s.cassandra.KubernetesSeedProvider"
+                            },
+                            {
+                                "name": "POD_IP",
+                                "valueFrom": {
+                                    "fieldRef": {
+                                        "apiVersion": "v1",
+                                        "fieldPath": "status.podIP"
+                                    }
+                                }
                             }
                         ],
                         "resources": {
                             "limits": {
-                                "cpu": "4",
-                                "memory": "4Gi"
+                                "cpu": "5",
+                                "memory": "6Gi"
                             },
                             "requests": {
                                 "cpu": "500m",
+                                "memory": "3Gi"
+                            }
+                        },
+                        "readinessProbe": {
+                            "exec": {
+                                "command": [
+                                    "/bin/bash",
+                                    "-c",
+                                    "cat < /dev/null > /dev/tcp/${POD_IP}/9042"
+                                ]
+                            },
+                            "initialDelaySeconds": 15,
+                            "timeoutSeconds": 5,
+                            "periodSeconds": 10,
+                            "successThreshold": 1,
+                            "failureThreshold": 3
+                        },
+                        "lifecycle": {
+                            "preStop": {
+                                "exec": {
+                                    "command": [
+                                        "/bin/sh",
+                                        "-c",
+                                        "nodetool drain"
+                                    ]
+                                }
+                            }
+                        },
+                        "terminationMessagePath": "/dev/termination-log",
+                        "terminationMessagePolicy": "File",
+                        "imagePullPolicy": "Always",
+                        "securityContext": {
+                            "capabilities": {
+                                "add": [
+                                    "IPC_LOCK"
+                                ]
+                            }
+                        }
+                    },
+                    {
+                        "name": "worker",
+                        "image": "gettyimages/spark",
+                        "command": [
+                            "bin/spark-class",
+                            "org.apache.spark.deploy.worker.Worker",
+                            "spark://master:7077"
+                        ],
+                        "env": [
+                            {
+                                "name": "SPARK_WORKER_CORES",
+                                "value": "1"
+                            },
+                            {
+                                "name": "SPARK_WORKER_MEMORY",
+                                "value": "2g"
+                            }
+                        ],
+                        "resources": {
+                            "limits": {
+                                "cpu": "1",
                                 "memory": "2Gi"
+                            },
+                            "requests": {
+                                "cpu": "500m",
+                                "memory": "500Mi"
                             }
                         },
                         "terminationMessagePath": "/dev/termination-log",
@@ -65,43 +179,26 @@
                 "terminationGracePeriodSeconds": 1800,
                 "dnsPolicy": "ClusterFirst",
                 "securityContext": {},
-                "hostname": "master",
                 "schedulerName": "default-scheduler"
             }
         },
-        "strategy": {
+        "serviceName": "cassandra",
+        "podManagementPolicy": "OrderedReady",
+        "updateStrategy": {
             "type": "RollingUpdate",
             "rollingUpdate": {
-                "maxUnavailable": "25%",
-                "maxSurge": "25%"
+                "partition": 0
             }
         },
-        "revisionHistoryLimit": 10,
-        "progressDeadlineSeconds": 600
+        "revisionHistoryLimit": 10
     },
     "status": {
-        "observedGeneration": 1,
-        "replicas": 1,
-        "updatedReplicas": 1,
+        "observedGeneration": 10,
+        "replicas": 2,
         "readyReplicas": 1,
-        "availableReplicas": 1,
-        "conditions": [
-            {
-                "type": "Available",
-                "status": "True",
-                "lastUpdateTime": "2020-04-02T13:34:37Z",
-                "lastTransitionTime": "2020-04-02T13:34:37Z",
-                "reason": "MinimumReplicasAvailable",
-                "message": "Deployment has minimum availability."
-            },
-            {
-                "type": "Progressing",
-                "status": "True",
-                "lastUpdateTime": "2020-04-02T13:34:37Z",
-                "lastTransitionTime": "2020-04-02T13:34:20Z",
-                "reason": "NewReplicaSetAvailable",
-                "message": "ReplicaSet \"master-5cc6c8d499\" has successfully progressed."
-            }
-        ]
+        "currentReplicas": 2,
+        "currentRevision": "cassandra-78d75dd9c6",
+        "updateRevision": "cassandra-7cfd95975",
+        "collisionCount": 0
     }
 }

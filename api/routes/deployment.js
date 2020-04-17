@@ -8,7 +8,7 @@ const exec = require('child_process').exec;
 var Client = require('node-kubernetes-client');
 var fs = require('fs');
 
-var state="undefined"
+const state = require( './state.js' )
 
 var client = new Client({
     protocol: 'http',
@@ -19,10 +19,25 @@ var client = new Client({
 });
 
 client.deployments = client.createCollection('deployments',null,null,{ apiPrefix : 'apis',namespaced: true});
-
+function executeFeedback(){
+    exec('./startagents.sh', { cwd: './../deployment/' }, (error, stdout, stderr) => {
+        console.log( stdout, stderr ); 
+       
+        state.id="2"
+        state.msg="2- A começar a monitorização"
+        if (error) {
+            console.log("oh")
+            return;
+        }
+    });
+    setTimeout(execInBetween,40000);
+    setTimeout(execFunction, 60000);
+    setTimeout(execLoad, 90000);
+}
 
 function execFunction(){
-    state="3"
+    state.id="3"
+    state.msg="3-A parar monitorização"
     exec('./stopagents.sh', { cwd: './../deployment/' }, (error, stdout, stderr) => {
         console.log( stdout, stderr ); 
         if (error) {
@@ -33,7 +48,7 @@ function execFunction(){
 }
 
 function execInBetween(){
-    console.log("inside")
+    console.log("inBetween")
     exec('./runscan.sh', { cwd: './../deployment/' }, (error, stdout, stderr) => {
         console.log( stdout, stderr ); 
         if (error) {
@@ -44,7 +59,8 @@ function execInBetween(){
 }
 function execLoad(){
     console.log("inside")
-    state=4
+    state.id="4"
+    state.msg="4-A lançar dados para neo4j"
     exec('./loadresults.sh --clear agent.*.pickle', { cwd: './../deployment/' }, (error, stdout, stderr) => {
         console.log( stdout, stderr ); 
         if (error) {
@@ -92,7 +108,8 @@ router.get('/state/state',(req,res,next)=>{
 
 //Changes the number of replicas
 router.post('/replicas/:deployment/:id',(req,res,next)=>{
-    state=1
+    state.id="1"
+    state.msg="1-A modificar réplicas"
     const name = req.params.deployment
     const id = req.params.id
     client.deployments.get(name,function (err, data) {
@@ -117,20 +134,9 @@ router.post('/replicas/:deployment/:id',(req,res,next)=>{
         }
       
     });
-    
-        exec('./startagents.sh', { cwd: './../deployment/' }, (error, stdout, stderr) => {
-            console.log( stdout, stderr ); 
-            state=2
-            if (error) {
-                console.log("oh")
-                return;
-            }
-        });
-        setTimeout(execInBetween,40000);
-        setTimeout(execFunction, 20000);
+     executeFeedback()
         
-        execLoad()
-        
+
 
 
     
@@ -140,6 +146,8 @@ router.post('/replicas/:deployment/:id',(req,res,next)=>{
 
 //Changes the limit of cpu
 router.post('/resources/limits/cpu/:deployment/:id',(req,res,next)=>{
+    state.id="1"
+    state.msg="1-A modificar limite cpu"
     const name = req.params.deployment
     const id = req.params.id
     client.deployments.get(name,function (err, data) {
@@ -161,11 +169,15 @@ router.post('/resources/limits/cpu/:deployment/:id',(req,res,next)=>{
             console.log("Error")
         }
     });
+    executeFeedback()
 });
 
 
 //Changes the limit of memory
 router.post('/resources/limits/memory/:deployment/:id',(req,res,next)=>{
+    console.log("inside limits")
+    state.id="1"
+    state.msg="1-A modificar limite memória"
     const name = req.params.deployment
     const id = req.params.id
     client.deployments.get(name,function (err, data) {
@@ -188,10 +200,13 @@ router.post('/resources/limits/memory/:deployment/:id',(req,res,next)=>{
             console.log("Error")
         }
     });
+    executeFeedback()
 });
 
 //Changes the cpu requests
 router.post('/resources/requests/cpu/:deployment/:id',(req,res,next)=>{
+    state.id="1"
+    state.msg="1-A modificar request cpu"
     const name = req.params.deployment
     const id = req.params.id
     client.deployments.get(name,function (err, data) {
@@ -217,9 +232,12 @@ router.post('/resources/requests/cpu/:deployment/:id',(req,res,next)=>{
             console.log("Error")
         }
     });
+    executeFeedback()
 });
 
 router.post('/resources/requests/memory/:deployment/:id',(req,res,next)=>{
+    state.id="1"
+    state.msg="1-A modificar resquest de memória"
     const name = req.params.deployment
     const id = req.params.id
     client.deployments.get(name,function (err, data) {
@@ -242,6 +260,7 @@ router.post('/resources/requests/memory/:deployment/:id',(req,res,next)=>{
             console.log("Error")
         }
     });
+    executeFeedback()
 });
 
 

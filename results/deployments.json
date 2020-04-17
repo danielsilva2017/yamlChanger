@@ -5,10 +5,10 @@
         "name": "master",
         "namespace": "default",
         "selfLink": "/apis/apps/v1/namespaces/default/deployments/master",
-        "uid": "56f7a259-7504-11ea-8036-42010a840013",
-        "resourceVersion": "3278",
+        "uid": "4639c7fd-7e30-11ea-9d18-42010a840fce",
+        "resourceVersion": "3764",
         "generation": 2,
-        "creationTimestamp": "2020-04-02T17:06:48Z",
+        "creationTimestamp": "2020-04-14T09:13:58Z",
         "labels": {
             "app": "master"
         },
@@ -89,16 +89,16 @@
             {
                 "type": "Progressing",
                 "status": "True",
-                "lastUpdateTime": "2020-04-02T17:07:06Z",
-                "lastTransitionTime": "2020-04-02T17:06:48Z",
+                "lastUpdateTime": "2020-04-14T09:14:20Z",
+                "lastTransitionTime": "2020-04-14T09:13:59Z",
                 "reason": "NewReplicaSetAvailable",
                 "message": "ReplicaSet \"master-5cc6c8d499\" has successfully progressed."
             },
             {
                 "type": "Available",
                 "status": "True",
-                "lastUpdateTime": "2020-04-02T17:28:45Z",
-                "lastTransitionTime": "2020-04-02T17:28:45Z",
+                "lastUpdateTime": "2020-04-14T09:44:48Z",
+                "lastTransitionTime": "2020-04-14T09:44:48Z",
                 "reason": "MinimumReplicasAvailable",
                 "message": "Deployment has minimum availability."
             }
