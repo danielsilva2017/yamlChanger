@@ -13,7 +13,7 @@ var client = new Client({
     host: '127.0.0.1:8001',
     version: 'apps/v1',
     reqOptions: {},
-    namespace: 'default'
+    namespace: 'sock-shop'
 });
 
 client.deployments = client.createCollection('statefulsets',null,null,{ apiPrefix : 'apis',namespaced: true});
@@ -29,9 +29,8 @@ function executeFeedback(){
             return;
         }
     });
-    setTimeout(execInBetween,40000);
-    setTimeout(execFunction, 60000);
-    setTimeout(execLoad, 90000);
+    setTimeout(execFunction, 40000);
+    setTimeout(execLoad, 70000);
 }
 
 function execFunction(){

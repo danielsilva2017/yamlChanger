@@ -10,7 +10,7 @@ var client = new Client({
     host: '127.0.0.1:8001',
     version: 'apps/v1',
     reqOptions: {},
-    namespace: 'default'
+    namespace: 'sock-shop'
 });
 
 client.deployments = client.createCollection('replicasets',null,null,{ apiPrefix : 'apis',namespaced: true});
@@ -41,7 +41,7 @@ router.get('/:deployment',(req,res,next)=>{
             res.status(200).json(data)
         }
         else{
-            console.log("Error")
+            console.log("Error"+JSON.stringify(err))
         }
     });
 });

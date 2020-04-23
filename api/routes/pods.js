@@ -9,7 +9,7 @@ var client = new Client({
 host: '127.0.0.1:8001',
 version: 'v1',
 reqOptions: {},
-namespace: 'default'
+namespace: 'sock-shop'
 });
 /*client.pods.get(function (err, pods) {
     console.log('pods:', JSON.stringify(pods));
