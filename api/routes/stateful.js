@@ -29,7 +29,7 @@ function executeFeedback(){
             return;
         }
     });
-    setTimeout(execFunction, 40000);
+    setTimeout(execFunction, 60000);
     setTimeout(execLoad, 70000);
 }
 

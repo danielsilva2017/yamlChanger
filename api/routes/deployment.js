@@ -30,8 +30,12 @@ function executeFeedback(){
             return;
         }
     });
+
     setTimeout(execFunction, 40000);
-    setTimeout(execLoad, 70000);
+    setTimeout(execLoad, 120000);
+    setTimeout(() => {
+        console.log("finish")
+    }, 200000);
 }
 
 function execFunction(){
@@ -39,34 +43,18 @@ function execFunction(){
     state.msg="3-A parar monitorização"
     exec('./stopagents.sh', { cwd: './../deployment/' }, (error, stdout, stderr) => {
         console.log( stdout, stderr ); 
-        if (error) {
-            console.log("oh")
-            return;
-        }
+        if (error) throw error
     });
 }
 
-function execInBetween(){
-    console.log("inBetween")
-    exec('./runscan.sh', { cwd: './../deployment/' }, (error, stdout, stderr) => {
-        console.log( stdout, stderr ); 
-        if (error) {
-            console.log("oh")
-            return;
-        }
-    });
 
-}
 function execLoad(){
     console.log("inside")
     state.id="4"
     state.msg="4-A lançar dados para neo4j"
-    exec('./loadresults.sh --clear --k8s services.txt agent.*.pickle', { cwd: './../deployment/' }, (error, stdout, stderr) => {
+    exec('./loadresults.sh --clear --k8s services.txt agent.*.pickle > /dev/null 2>&1', { cwd: './../deployment/',stdio: ['pipe', 'pipe', 'ignore']}, (error, stdout, stderr) => {
         console.log( stdout, stderr ); 
-        if (error) {
-            console.log("oh")
-            return;
-        }
+        if (error) throw error
     });
 }
 
