@@ -9,7 +9,10 @@
   "author": "Daniel Silva",
   "license": "ISC",
   "dependencies": {
+    "axios": "^0.19.2",
     "cors": "^2.8.5",
-    "express": "^4.17.1"
+    "express": "^4.17.1",
+    "extend": "^3.0.2",
+    "node-kubernetes-client": "^0.3.2"
   }
 }

@@ -9,8 +9,7 @@ var client = new Client({
     protocol: 'http',
     host: '127.0.0.1:8001',
     version: 'apps/v1',
-    reqOptions: {},
-    namespace: 'sock-shop'
+    reqOptions: {}
 });
 
 client.deployments = client.createCollection('replicasets',null,null,{ apiPrefix : 'apis',namespaced: true});
@@ -33,9 +32,18 @@ router.get('/xd/:test',(req,res,next)=>{
    
 });
 
-router.get('/:deployment',(req,res,next)=>{
+router.get('/:deployment/:namespace',(req,res,next)=>{
     const name = req.params.deployment
-    client.deployments.get(name,function (err, data) {
+    var clientarino = new Client({
+        protocol: 'http',
+        host: '127.0.0.1:8001',
+        version: 'apps/v1',
+        reqOptions: {},
+        namespace: req.params.namespace
+    });
+    clientarino.deployments = clientarino.createCollection('replicasets',null,null,{ apiPrefix : 'apis',namespaced: true});
+   
+    clientarino.deployments.get(name,function (err, data) {
         if(!err){
             fs.writeFile("results/deployments.json", JSON.stringify(data, null, 4));
             res.status(200).json(data)
@@ -47,15 +55,24 @@ router.get('/:deployment',(req,res,next)=>{
 });
 
 //Changes the number of replicas
-router.post('/replicas/:deployment/:id',(req,res,next)=>{
+router.post('/replicas/:namespace/:deployment/:id',(req,res,next)=>{
     const name = req.params.deployment
     const id = req.params.id
-    client.deployments.get(name,function (err, data) {
+    var clientarino = new Client({
+        protocol: 'http',
+        host: '127.0.0.1:8001',
+        version: 'apps/v1',
+        reqOptions: {},
+        namespace: req.params.namespace
+    });
+    clientarino.deployments = clientarino.createCollection('replicasets',null,null,{ apiPrefix : 'apis',namespaced: true});
+   
+    clientarino.deployments.get(name,function (err, data) {
         if(!err){
             const novo = {spec:{replicas:id}}
             extend(true,data,novo)
             data.spec.replicas=parseInt(id)
-            client.deployments.update(name,data,function (err, data) {
+            clientarino.deployments.update(name,data,function (err, data) {
                 if(!err){
                     console.log("done")
                     res.status(200).json(data)
