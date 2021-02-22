@@ -1,1 +1,1 @@
-module.exports={number:0}
+module.exports={number:0,currentLeft:0}

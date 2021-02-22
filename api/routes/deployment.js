@@ -191,11 +191,10 @@ router.post('/resources/:namespace/limits/cpu/:deployment/:id',(req,res,next)=>{
             extend(true,data,novo)
             clientarino.deployments.update(name,data,function (err, data) {
                 if(!err){
-                    console.log("done")
                     res.status(200).json(data)
                 }
                 else{
-                    console.log("ups"+JSON.stringify(err))
+                    console.log(JSON.stringify(err))
                 }
             });
         }
@@ -231,11 +230,11 @@ router.post('/resources/:namespace/limits/memory/:deployment/:id',(req,res,next)
             extend(true,data,novo)
             clientarino.deployments.update(name,data,function (err, data) {
                 if(!err){
-                    console.log("done")
+                   
                     res.status(200).json(data)
                 }
                 else{
-                    console.log("ups"+JSON.stringify(err))
+                    console.log(JSON.stringify(err))
                 }
             });
         }

@@ -41,7 +41,7 @@ function execFunction(){
 
 
 function execLoad(){
-    console.log("inside")
+
     queue.id=0
     queue.currentLeft=0
     state.id="4"
