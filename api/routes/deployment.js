@@ -59,8 +59,8 @@ function execLoad(){
 }
 
 router.post('/queue',async(req,res,next)=>{
-    try{ var a = req.body.data
-        console.log('posting boys'+req.body+a)
+    try{ 
+        var a = req.body.data
         for(let key of a){
             console.log(key)
             await axios.post(key).then(response => 
@@ -123,7 +123,7 @@ router.get('/state/state/state',(req,res,next)=>{
 
 //Changes the number of replicas
 router.post('/replicas/:namespace/:deployment/:id',(req,res,next)=>{
-    console.log("replicando")
+
     state.id="1"
     state.msg="1-A modificar réplicas"
     const name = req.params.deployment
@@ -224,7 +224,7 @@ router.post('/resources/:namespace/limits/memory/:deployment/:id',(req,res,next)
     
     clientarino.deployments.get(name,function (err, data) {
         if(!err){
-            console.log("here")
+            
             const final = id
             const novo={spec:{template:{spec:{containers:[{resources:{limits:{memory:final}}}]}}}}
             extend(true,data,novo)
@@ -320,7 +320,7 @@ router.post('/resources/:namespace/requests/memory/:deployment/:id',(req,res,nex
             console.log("Error")
         }
     });
-    executeFeedback()
+    //executeFeedback()
 });
 
 

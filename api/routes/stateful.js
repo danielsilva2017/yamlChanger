@@ -58,7 +58,6 @@ function execInBetween(){
     });
 }
 function execLoad(){
-    console.log("inside")
     state.id="4"
     state.msg="4-A lançar dados para neo4j"
     exec('./loadresults.sh --clear agent.*.pickle', { cwd: './../deployment/' }, (error, stdout, stderr) => {
