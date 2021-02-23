@@ -31,11 +31,7 @@ router.get('/',(req,res,next)=>{
     });
 });
 
-router.get('/xd/:test',(req,res,next)=>{
-    
-    res.status(200).json("estamos aqui")
-   
-});
+
 router.get('/:deployment/:namespace',(req,res,next)=>{
     console.log("getting deployment"+req.params.deployment+req.params.namespace)
     var clientarino = new Client({
@@ -285,6 +281,12 @@ router.post('/resources/:namespace/requests/memory/:deployment/:id',(req,res,nex
     }, 200000);
 }
 
+router.get('/xd/:test',(req,res,next)=>{
+    
+    res.status(200).json("estamos aqui")
+   
+});
+
 function execFunction(){
     state.id="3"
     state.msg="3-A parar monitorização"
@@ -304,6 +306,8 @@ function execLoad(){
         if (error) throw error
     });
 }*/
+
+
 
 /*router.post('/queue',async(req,res,next)=>{
     try{ 
