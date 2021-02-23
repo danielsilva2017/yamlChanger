@@ -17,58 +17,6 @@ var client = new Client({
 
 client.deployments = client.createCollection('statefulsets',null,null,{ apiPrefix : 'apis',namespaced: true});
 
-function executeFeedback(){
-    exec('rm agent.*.pickle', { cwd: './../deployment/' }, (error, stdout, stderr) => {
-        if (error) throw error;
-    });
-    exec('./startagents.sh', { cwd: './../deployment/' }, (error, stdout, stderr) => {
-        console.log( stdout, stderr ); 
-       
-        state.id="2"
-        state.msg="2- A começar a monitorização"
-        if (error) {
-            console.log("oh")
-            return;
-        }
-    });
-    setTimeout(execFunction, 60000);
-    setTimeout(execLoad, 70000);
-}
-
-function execFunction(){
-    state.id="3"
-    state.msg="3-A parar monitorização"
-    exec('./stopagents.sh', { cwd: './../deployment/' }, (error, stdout, stderr) => {
-        console.log( stdout, stderr ); 
-        if (error) {
-            console.log("oh")
-            return;
-        }
-    });
-}
-
-function execInBetween(){
-    console.log("inBetween")
-    exec('./runscan.sh', { cwd: './../deployment/' }, (error, stdout, stderr) => {
-        console.log( stdout, stderr ); 
-        if (error) {
-            console.log("oh")
-            return;
-        }
-    });
-}
-function execLoad(){
-    state.id="4"
-    state.msg="4-A lançar dados para neo4j"
-    exec('./loadresults.sh --clear agent.*.pickle', { cwd: './../deployment/' }, (error, stdout, stderr) => {
-        console.log( stdout, stderr ); 
-        if (error) {
-            console.log("oh")
-            return;
-        }
-    });
-}
-
 
 router.get('/',(req,res,next)=>{
     client.deployments.get( function (err, data) {
@@ -82,7 +30,6 @@ router.get('/',(req,res,next)=>{
 });
 
 router.get('/state/state/state',(req,res,next)=>{
-    console.log("wow")
     res.status(200).json(state)
    
 });
@@ -144,7 +91,7 @@ router.post('/replicas/:namespace/:deployment/:id',(req,res,next)=>{
             console.log("Error")
         }
     });
-    executeFeedback()
+    //executeFeedback()
 });
 
 //Changes the limit of cpu
@@ -181,7 +128,7 @@ router.post('/resources/:namespace/limits/cpu/:deployment/:id',(req,res,next)=>{
             console.log("Error")
         }
     });
-    executeFeedback()
+    //executeFeedback()
 });
 
 
@@ -220,7 +167,7 @@ router.post('/resources/:namespace/limits/memory/:deployment/:id',(req,res,next)
             console.log("Error")
         }
     });
-    executeFeedback()
+    //executeFeedback()
 });
 
 //Changes the cpu requests
@@ -261,7 +208,7 @@ router.post('/resources/:namespace/requests/cpu/:deployment/:id',(req,res,next)=
             console.log("Error")
         }
     });
-    executeFeedback()
+    //executeFeedback()
 });
 
 router.post('/resources/:namespace/requests/memory/:deployment/:id',(req,res,next)=>{
@@ -298,9 +245,59 @@ router.post('/resources/:namespace/requests/memory/:deployment/:id',(req,res,nex
             console.log("Error")
         }
     });
-    executeFeedback()
+    //executeFeedback()
 });
 
+/*function executeFeedback(){
+    exec('rm agent.*.pickle', { cwd: './../deployment/' }, (error, stdout, stderr) => {
+        if (error) throw error;
+    });
+    exec('./startagents.sh', { cwd: './../deployment/' }, (error, stdout, stderr) => {
+        console.log( stdout, stderr ); 
+       
+        state.id="2"
+        state.msg="2- A começar a monitorização"
+        if (error) {
+            console.log("oh")
+            return;
+        }
+    });
+    setTimeout(execFunction, 60000);
+    setTimeout(execLoad, 70000);
+}
 
+function execFunction(){
+    state.id="3"
+    state.msg="3-A parar monitorização"
+    exec('./stopagents.sh', { cwd: './../deployment/' }, (error, stdout, stderr) => {
+        console.log( stdout, stderr ); 
+        if (error) {
+            console.log("oh")
+            return;
+        }
+    });
+}
+
+function execInBetween(){
+    console.log("inBetween")
+    exec('./runscan.sh', { cwd: './../deployment/' }, (error, stdout, stderr) => {
+        console.log( stdout, stderr ); 
+        if (error) {
+            console.log("oh")
+            return;
+        }
+    });
+}
+function execLoad(){
+    state.id="4"
+    state.msg="4-A lançar dados para neo4j"
+    exec('./loadresults.sh --clear agent.*.pickle', { cwd: './../deployment/' }, (error, stdout, stderr) => {
+        console.log( stdout, stderr ); 
+        if (error) {
+            console.log("oh")
+            return;
+        }
+    });
+}*/
 
 module.exports = router;

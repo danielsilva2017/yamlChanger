@@ -18,64 +18,7 @@ var client = new Client({
 });
 
 client.deployments = client.createCollection('deployments',null,null,{ apiPrefix : 'apis',namespaced: true});
-function executeFeedback(){
 
-    exec('./startagents.sh', { cwd: './../deployment/' }, (error, stdout, stderr) => {
-        console.log( stdout, stderr ); 
-       
-        state.id="2"
-        state.msg="2- A começar a monitorização"
-        if (error) {
-            console.log("oh")
-            return;
-        }
-    });
-
-    setTimeout(execFunction, 40000);
-    setTimeout(execLoad, 120000);
-    setTimeout(() => {
-        console.log("finish")
-    }, 200000);
-}
-
-function execFunction(){
-    state.id="3"
-    state.msg="3-A parar monitorização"
-    exec('./stopagents.sh', { cwd: './../deployment/' }, (error, stdout, stderr) => {
-        console.log( stdout, stderr ); 
-        if (error) throw error
-    });
-}
-
-
-function execLoad(){
-    console.log("inside")
-    state.id="4"
-    state.msg="4-A lançar dados para neo4j"
-    exec('./loadresults.sh --clear --k8s services.txt agent.*.pickle > /dev/null 2>&1', { cwd: './../deployment/',stdio: ['pipe', 'pipe', 'ignore']}, (error, stdout, stderr) => {
-        console.log( stdout, stderr ); 
-        if (error) throw error
-    });
-}
-
-router.post('/queue',async(req,res,next)=>{
-    try{ 
-        var a = req.body.data
-        for(let key of a){
-            console.log(key)
-            await axios.post(key).then(response => 
-            {
-                console.log('inside queue')
-              console.log(response)
-            } )
-            setTimeout(() => {
-                console.log("timing for next key")
-            }, 200000);
-        }}catch(err){
-            console.log(err)
-        }
-    executeFeedback()
-});
 
 router.get('/',(req,res,next)=>{
     client.deployments.get( function (err, data) {
@@ -116,7 +59,6 @@ router.get('/:deployment/:namespace',(req,res,next)=>{
 });
 
 router.get('/state/state/state',(req,res,next)=>{
-    console.log("wow")
     res.status(200).json(state)
    
 });
@@ -322,6 +264,67 @@ router.post('/resources/:namespace/requests/memory/:deployment/:id',(req,res,nex
     });
     //executeFeedback()
 });
+
+/*function executeFeedback(){
+
+    exec('./startagents.sh', { cwd: './../deployment/' }, (error, stdout, stderr) => {
+        console.log( stdout, stderr ); 
+       
+        state.id="2"
+        state.msg="2- A começar a monitorização"
+        if (error) {
+            console.log("oh")
+            return;
+        }
+    });
+
+    setTimeout(execFunction, 40000);
+    setTimeout(execLoad, 120000);
+    setTimeout(() => {
+        console.log("finish")
+    }, 200000);
+}
+
+function execFunction(){
+    state.id="3"
+    state.msg="3-A parar monitorização"
+    exec('./stopagents.sh', { cwd: './../deployment/' }, (error, stdout, stderr) => {
+        console.log( stdout, stderr ); 
+        if (error) throw error
+    });
+}
+
+
+function execLoad(){
+    console.log("inside")
+    state.id="4"
+    state.msg="4-A lançar dados para neo4j"
+    exec('./loadresults.sh --clear --k8s services.txt agent.*.pickle > /dev/null 2>&1', { cwd: './../deployment/',stdio: ['pipe', 'pipe', 'ignore']}, (error, stdout, stderr) => {
+        console.log( stdout, stderr ); 
+        if (error) throw error
+    });
+}*/
+
+/*router.post('/queue',async(req,res,next)=>{
+    try{ 
+        var a = req.body.data
+        for(let key of a){
+            console.log(key)
+            await axios.post(key).then(response => 
+            {
+                console.log('inside queue')
+              console.log(response)
+            } )
+            setTimeout(() => {
+                console.log("timing for next key")
+            }, 200000);
+        }}catch(err){
+            console.log(err)
+        }
+    executeFeedback()
+});*/
+
+
 
 
 

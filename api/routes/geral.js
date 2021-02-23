@@ -62,14 +62,12 @@ router.post('/queue',async(req,res,next)=>{
         var a = req.body.data
         queue.number = req.body.data.length
         queue.currentLeft=0
-        console.log('currentleft'+queue.currentLeft)
         for(let key of a){
             await axios.post(key).then(response => 
             {
                 console.log('inside queue')
             } )
             queue.currentLeft=queue.currentLeft+1;
-            console.log('currentleft2'+queue.currentLeft)
             await delay(20000);
         }}catch(err){
             console.log(err)

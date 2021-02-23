@@ -14,7 +14,7 @@ var client = new Client({
 
 client.deployments = client.createCollection('replicasets',null,null,{ apiPrefix : 'apis',namespaced: true});
 
-
+/*
 router.get('/',(req,res,next)=>{
     client.deployments.get( function (err, data) {
         if(!err){
@@ -193,7 +193,7 @@ router.post('/resources/requests/memory/:deployment/:id',(req,res,next)=>{
         }
     });
 });
-
+*/
 
 
 module.exports = router;
