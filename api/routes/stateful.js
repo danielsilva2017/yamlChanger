@@ -95,9 +95,10 @@ router.post('/replicas/:namespace/:deployment/:id',(req,res,next)=>{
 });
 
 //Changes the limit of cpu
-router.post('/resources/:namespace/limits/cpu/:deployment/:id',(req,res,next)=>{
+router.post('/resources/:namespace/limits/cpu/:deployment/:id/:index',(req,res,next)=>{
     state.id="1"
     state.msg="1-A modificar limite de cpu"
+     const index=req.params.index
     const name = req.params.deployment
     const id = req.params.id
     var clientarino = new Client({
@@ -111,9 +112,11 @@ router.post('/resources/:namespace/limits/cpu/:deployment/:id',(req,res,next)=>{
     
     clientarino.deployments.get(name,function (err, data) {
         if(!err){
+            
             const final=id
-            const novo={spec:{template:{spec:{containers:[{resources:{limits:{cpu:final}}}]}}}}
-            extend(true,data,novo)
+            var container=data.spec.template.spec.containers[index]
+            extend(true,container,{resources:{limits:{cpu:final}}})
+            //extend(true,data,novo)
             client.deployments.update(name,data,function (err, data) {
                 if(!err){
                     console.log("done")
@@ -133,9 +136,10 @@ router.post('/resources/:namespace/limits/cpu/:deployment/:id',(req,res,next)=>{
 
 
 //Changes the limit of memory
-router.post('/resources/:namespace/limits/memory/:deployment/:id',(req,res,next)=>{
+router.post('/resources/:namespace/limits/memory/:deployment/:id/:index',(req,res,next)=>{
     state.id="1"
     state.msg="1-A modificar limite de memória"
+    const index=req.params.index
     const name = req.params.deployment
     const id = req.params.id
     var clientarino = new Client({
@@ -149,10 +153,12 @@ router.post('/resources/:namespace/limits/memory/:deployment/:id',(req,res,next)
     
     clientarino.deployments.get(name,function (err, data) {
         if(!err){
-            console.log("here")
-            const final = id
-            const novo={spec:{template:{spec:{containers:[{resources:{limits:{memory:final}}}]}}}}
-            extend(true,data,novo)
+                        
+            const final=id
+            var container=data.spec.template.spec.containers[index]
+            extend(true,container,{resources:{limits:{memory:final}}})
+           /* const novo={spec:{template:{spec:{containers:[{resources:{limits:{memory:final}}}]}}}}
+            extend(true,data,novo)*/
             clientarino.deployments.update(name,data,function (err, data) {
                 if(!err){
                     console.log("done")
@@ -171,9 +177,10 @@ router.post('/resources/:namespace/limits/memory/:deployment/:id',(req,res,next)
 });
 
 //Changes the cpu requests
-router.post('/resources/:namespace/requests/cpu/:deployment/:id',(req,res,next)=>{
+router.post('/resources/:namespace/requests/cpu/:deployment/:id/:index',(req,res,next)=>{
     state.id="1"
     state.msg="1-A modificar request de cpu"
+    const index=req.params.index
     const name = req.params.deployment
     const id = req.params.id
     var clientarino = new Client({
@@ -187,10 +194,13 @@ router.post('/resources/:namespace/requests/cpu/:deployment/:id',(req,res,next)=
     
     clientarino.deployments.get(name,function (err, data) {
         if(!err){
-            console.log("here")
+            
             const final=id
-            const novo={spec:{template:{spec:{containers:[{resources:{requests:{cpu:final}}}]}}}}
-            extend(true,data,novo)
+            var container=data.spec.template.spec.containers[index]
+            extend(true,container,{resources:{requests:{cpu:final}}})
+            
+            //extend(true,data,novo)
+            console.log("after whatever"+JSON.stringify(data))
             fs.writeFile("results/erross.json", JSON.stringify(data, null, 4));
             
              
@@ -211,11 +221,12 @@ router.post('/resources/:namespace/requests/cpu/:deployment/:id',(req,res,next)=
     //executeFeedback()
 });
 
-router.post('/resources/:namespace/requests/memory/:deployment/:id',(req,res,next)=>{
+router.post('/resources/:namespace/requests/memory/:deployment/:id/:index',(req,res,next)=>{
     state.id="1"
     state.msg="1-A modificar request de memória"
     const name = req.params.deployment
     const id = req.params.id
+    const index=req.params.index
     var clientarino = new Client({
         protocol: 'http',
         host: '127.0.0.1:8001',
@@ -228,8 +239,10 @@ router.post('/resources/:namespace/requests/memory/:deployment/:id',(req,res,nex
     clientarino.deployments.get(name,function (err, data) {
         if(!err){
             const final=id
-            const novo={spec:{template:{spec:{containers:[{resources:{requests:{memory:final}}}]}}}}
-            extend(true,data,novo)
+            var container=data.spec.template.spec.containers[index]
+            extend(true,container,{resources:{requests:{memory:final}}})
+            
+            //extend(true,data,novo)
             fs.writeFile("results/erross.json", JSON.stringify(data, null, 4)); 
             clientarino.deployments.update(name,data,function (err, data) {
                 if(!err){

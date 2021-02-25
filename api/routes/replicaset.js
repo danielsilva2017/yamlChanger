@@ -14,7 +14,7 @@ var client = new Client({
 
 client.deployments = client.createCollection('replicasets',null,null,{ apiPrefix : 'apis',namespaced: true});
 
-/*
+
 router.get('/',(req,res,next)=>{
     client.deployments.get( function (err, data) {
         if(!err){
@@ -52,8 +52,8 @@ router.get('/:deployment/:namespace',(req,res,next)=>{
             console.log("Error"+JSON.stringify(err))
         }
     });
-});
-
+})
+/*
 //Changes the number of replicas
 router.post('/replicas/:namespace/:deployment/:id',(req,res,next)=>{
     const name = req.params.deployment

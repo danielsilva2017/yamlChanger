@@ -9,6 +9,7 @@ const statefulRoutes= require('./api/routes/stateful')
 const replicaSets= require('./api/routes/replicaset')
 const image= require('./api/routes/image')
 const geral = require('./api/routes/geral')
+const monitor = require('./api/routes/monitor')
 app.use(cors())
 app.use(bodyParser.json())
 app.use('/deployment',deploymentRoutes);
@@ -17,6 +18,7 @@ app.use('/statefulset',statefulRoutes);
 app.use('/replicaset',replicaSets)
 app.use('/image',image)
 app.use('/geral',geral)
+app.use('/monitor',monitor)
 
 
 

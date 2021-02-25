@@ -19,7 +19,6 @@ reqOptions: {}
 
 
 router.get('/',(req,res,next)=>{
-    console.log('here')
     client.pods.get( function (err, data) {
         if(!err){
             res.status(200).json(data)
@@ -33,6 +32,7 @@ router.get('/',(req,res,next)=>{
 router.get('/:pods',(req,res,next)=>{
     const name = req.params.pods
     client.pods.get(name,function (err, data) {
+        
         if(!err){
             res.status(200).json(data)
         }
