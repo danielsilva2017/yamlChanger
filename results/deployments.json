@@ -2,76 +2,63 @@
     "kind": "Deployment",
     "apiVersion": "apps/v1",
     "metadata": {
-        "name": "user-db",
+        "name": "front-end",
         "namespace": "sock-shop",
-        "selfLink": "/apis/apps/v1/namespaces/sock-shop/deployments/user-db",
-        "uid": "d0e26249-776d-11eb-86d7-42010a840fd9",
-        "resourceVersion": "1292",
+        "selfLink": "/apis/apps/v1/namespaces/sock-shop/deployments/front-end",
+        "uid": "3aee199a-77a8-11eb-ae4c-42010a840fe1",
+        "resourceVersion": "1494",
         "generation": 1,
-        "creationTimestamp": "2021-02-25T13:31:50Z",
+        "creationTimestamp": "2021-02-25T20:29:59Z",
         "labels": {
-            "name": "user-db"
+            "name": "front-end"
         },
         "annotations": {
             "deployment.kubernetes.io/revision": "1",
-            "kubectl.kubernetes.io/last-applied-configuration": "{\"apiVersion\":\"extensions/v1beta1\",\"kind\":\"Deployment\",\"metadata\":{\"annotations\":{},\"labels\":{\"name\":\"user-db\"},\"name\":\"user-db\",\"namespace\":\"sock-shop\"},\"spec\":{\"replicas\":1,\"template\":{\"metadata\":{\"labels\":{\"name\":\"user-db\"}},\"spec\":{\"containers\":[{\"image\":\"weaveworksdemos/user-db:0.4.0\",\"name\":\"user-db\",\"ports\":[{\"containerPort\":27017,\"name\":\"mongo\"}],\"securityContext\":{\"capabilities\":{\"add\":[\"CHOWN\",\"SETGID\",\"SETUID\"],\"drop\":[\"all\"]},\"readOnlyRootFilesystem\":true},\"volumeMounts\":[{\"mountPath\":\"/tmp\",\"name\":\"tmp-volume\"}]}],\"nodeSelector\":{\"beta.kubernetes.io/os\":\"linux\"},\"volumes\":[{\"emptyDir\":{\"medium\":\"Memory\"},\"name\":\"tmp-volume\"}]}}}}\n"
+            "kubectl.kubernetes.io/last-applied-configuration": "{\"apiVersion\":\"extensions/v1beta1\",\"kind\":\"Deployment\",\"metadata\":{\"annotations\":{},\"name\":\"front-end\",\"namespace\":\"sock-shop\"},\"spec\":{\"replicas\":1,\"template\":{\"metadata\":{\"labels\":{\"name\":\"front-end\"}},\"spec\":{\"containers\":[{\"image\":\"weaveworksdemos/front-end:0.3.12\",\"name\":\"front-end\",\"ports\":[{\"containerPort\":8079}],\"resources\":{\"requests\":{\"cpu\":\"100m\",\"memory\":\"100Mi\"}},\"securityContext\":{\"capabilities\":{\"drop\":[\"all\"]},\"readOnlyRootFilesystem\":true,\"runAsNonRoot\":true,\"runAsUser\":10001}}],\"nodeSelector\":{\"beta.kubernetes.io/os\":\"linux\"}}}}}\n"
         }
     },
     "spec": {
         "replicas": 1,
         "selector": {
             "matchLabels": {
-                "name": "user-db"
+                "name": "front-end"
             }
         },
         "template": {
             "metadata": {
                 "creationTimestamp": null,
                 "labels": {
-                    "name": "user-db"
+                    "name": "front-end"
                 }
             },
             "spec": {
-                "volumes": [
-                    {
-                        "name": "tmp-volume",
-                        "emptyDir": {
-                            "medium": "Memory"
-                        }
-                    }
-                ],
                 "containers": [
                     {
-                        "name": "user-db",
-                        "image": "weaveworksdemos/user-db:0.4.0",
+                        "name": "front-end",
+                        "image": "weaveworksdemos/front-end:0.3.12",
                         "ports": [
                             {
-                                "name": "mongo",
-                                "containerPort": 27017,
+                                "containerPort": 8079,
                                 "protocol": "TCP"
                             }
                         ],
-                        "resources": {},
-                        "volumeMounts": [
-                            {
-                                "name": "tmp-volume",
-                                "mountPath": "/tmp"
+                        "resources": {
+                            "requests": {
+                                "cpu": "100m",
+                                "memory": "100Mi"
                             }
-                        ],
+                        },
                         "terminationMessagePath": "/dev/termination-log",
                         "terminationMessagePolicy": "File",
                         "imagePullPolicy": "IfNotPresent",
                         "securityContext": {
                             "capabilities": {
-                                "add": [
-                                    "CHOWN",
-                                    "SETGID",
-                                    "SETUID"
-                                ],
                                 "drop": [
                                     "all"
                                 ]
                             },
+                            "runAsUser": 10001,
+                            "runAsNonRoot": true,
                             "readOnlyRootFilesystem": true
                         }
                     }
@@ -106,8 +93,8 @@
             {
                 "type": "Available",
                 "status": "True",
-                "lastUpdateTime": "2021-02-25T13:31:51Z",
-                "lastTransitionTime": "2021-02-25T13:31:51Z",
+                "lastUpdateTime": "2021-02-25T20:29:59Z",
+                "lastTransitionTime": "2021-02-25T20:29:59Z",
                 "reason": "MinimumReplicasAvailable",
                 "message": "Deployment has minimum availability."
             }

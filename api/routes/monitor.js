@@ -11,7 +11,7 @@ function execute(){
     });
     setTimeout(() => {
        
-    }, 20000);
+    }, 2000);
     exec('./startagents.sh', { cwd: './../deployment/' }, (error, stdout, stderr) => {
         console.log( stdout, stderr ); 
        
@@ -25,16 +25,15 @@ function execute(){
 }
 
 function executeFinish(){
-    console.log("finishing");
+    console.log("starting to end")
     exec('./stopagents.sh', { cwd: './../deployment/' }, (error, stdout, stderr) => {
-        console.log("xddd")
         console.log( stdout, stderr ); 
         if (error) throw error
+        setTimeout(() => {
+       
+        }, 10000);
+        execLoad()
     });
-    setTimeout(execLoad, 40000);
-    setTimeout(() => {
-        console.log("finished")
-    }, 120000);
 }
 
 
