@@ -174,7 +174,7 @@ router.post('/resources/:namespace/limits/memory/:deployment/:id/:index',(req,re
             clientarino.deployments.update(name,data,function (err, data) {
                 if(!err){
                    
-                    res.stagetpodIDtus(200).json(data)
+                    res.status(200).json(data)
                 }
                 else{
                     console.log(JSON.stringify(err))
