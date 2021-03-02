@@ -19,6 +19,7 @@ reqOptions: {}
 
 
 router.get('/',(req,res,next)=>{
+    console.log("heres")
     client.pods.get( function (err, data) {
         if(!err){
             res.status(200).json(data)

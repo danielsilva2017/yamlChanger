@@ -2,65 +2,55 @@
     "kind": "Deployment",
     "apiVersion": "apps/v1",
     "metadata": {
-        "name": "front-end",
-        "namespace": "sock-shop",
-        "selfLink": "/apis/apps/v1/namespaces/sock-shop/deployments/front-end",
-        "uid": "3aee199a-77a8-11eb-ae4c-42010a840fe1",
-        "resourceVersion": "1494",
-        "generation": 1,
-        "creationTimestamp": "2021-02-25T20:29:59Z",
+        "name": "load-test",
+        "namespace": "loadtest",
+        "selfLink": "/apis/apps/v1/namespaces/loadtest/deployments/load-test",
+        "uid": "b32985ba-7b68-11eb-a265-42010a840fc8",
+        "resourceVersion": "2688",
+        "generation": 2,
+        "creationTimestamp": "2021-03-02T15:05:17Z",
         "labels": {
-            "name": "front-end"
+            "name": "load-test"
         },
         "annotations": {
-            "deployment.kubernetes.io/revision": "1",
-            "kubectl.kubernetes.io/last-applied-configuration": "{\"apiVersion\":\"extensions/v1beta1\",\"kind\":\"Deployment\",\"metadata\":{\"annotations\":{},\"name\":\"front-end\",\"namespace\":\"sock-shop\"},\"spec\":{\"replicas\":1,\"template\":{\"metadata\":{\"labels\":{\"name\":\"front-end\"}},\"spec\":{\"containers\":[{\"image\":\"weaveworksdemos/front-end:0.3.12\",\"name\":\"front-end\",\"ports\":[{\"containerPort\":8079}],\"resources\":{\"requests\":{\"cpu\":\"100m\",\"memory\":\"100Mi\"}},\"securityContext\":{\"capabilities\":{\"drop\":[\"all\"]},\"readOnlyRootFilesystem\":true,\"runAsNonRoot\":true,\"runAsUser\":10001}}],\"nodeSelector\":{\"beta.kubernetes.io/os\":\"linux\"}}}}}\n"
+            "deployment.kubernetes.io/revision": "2",
+            "kubectl.kubernetes.io/last-applied-configuration": "{\"apiVersion\":\"extensions/v1beta1\",\"kind\":\"Deployment\",\"metadata\":{\"annotations\":{},\"labels\":{\"name\":\"load-test\"},\"name\":\"load-test\",\"namespace\":\"loadtest\"},\"spec\":{\"replicas\":2,\"template\":{\"metadata\":{\"labels\":{\"name\":\"load-test\"}},\"spec\":{\"containers\":[{\"args\":[\"-c\",\"while true; do locust --host http://front-end.sock-shop.svc.cluster.local -f /config/locustfile.py --clients 2 --hatch-rate 20 --num-request 10 --no-web; done\"],\"command\":[\"/bin/sh\"],\"image\":\"weaveworksdemos/load-test:0.1.1\",\"name\":\"load-test\"}],\"nodeSelector\":{\"beta.kubernetes.io/os\":\"linux\"}}}}}\n"
         }
     },
     "spec": {
-        "replicas": 1,
+        "replicas": 2,
         "selector": {
             "matchLabels": {
-                "name": "front-end"
+                "name": "load-test"
             }
         },
         "template": {
             "metadata": {
                 "creationTimestamp": null,
                 "labels": {
-                    "name": "front-end"
+                    "name": "load-test"
                 }
             },
             "spec": {
                 "containers": [
                     {
-                        "name": "front-end",
-                        "image": "weaveworksdemos/front-end:0.3.12",
-                        "ports": [
-                            {
-                                "containerPort": 8079,
-                                "protocol": "TCP"
-                            }
+                        "name": "load-test",
+                        "image": "weaveworksdemos/load-test:0.1.1",
+                        "command": [
+                            "/bin/sh"
+                        ],
+                        "args": [
+                            "-c",
+                            "while true; do locust --host http://front-end.sock-shop.svc.cluster.local -f /config/locustfile.py --clients 2 --hatch-rate 20 --num-request 10 --no-web; done"
                         ],
                         "resources": {
-                            "requests": {
-                                "cpu": "100m",
-                                "memory": "100Mi"
+                            "limits": {
+                                "cpu": "400m"
                             }
                         },
                         "terminationMessagePath": "/dev/termination-log",
                         "terminationMessagePolicy": "File",
-                        "imagePullPolicy": "IfNotPresent",
-                        "securityContext": {
-                            "capabilities": {
-                                "drop": [
-                                    "all"
-                                ]
-                            },
-                            "runAsUser": 10001,
-                            "runAsNonRoot": true,
-                            "readOnlyRootFilesystem": true
-                        }
+                        "imagePullPolicy": "IfNotPresent"
                     }
                 ],
                 "restartPolicy": "Always",
@@ -84,17 +74,17 @@
         "progressDeadlineSeconds": 2147483647
     },
     "status": {
-        "observedGeneration": 1,
-        "replicas": 1,
-        "updatedReplicas": 1,
-        "readyReplicas": 1,
-        "availableReplicas": 1,
+        "observedGeneration": 2,
+        "replicas": 2,
+        "updatedReplicas": 2,
+        "readyReplicas": 2,
+        "availableReplicas": 2,
         "conditions": [
             {
                 "type": "Available",
                 "status": "True",
-                "lastUpdateTime": "2021-02-25T20:29:59Z",
-                "lastTransitionTime": "2021-02-25T20:29:59Z",
+                "lastUpdateTime": "2021-03-02T15:05:30Z",
+                "lastTransitionTime": "2021-03-02T15:05:30Z",
                 "reason": "MinimumReplicasAvailable",
                 "message": "Deployment has minimum availability."
             }

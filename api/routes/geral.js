@@ -11,51 +11,60 @@ var fs = require('fs');
 const state = require( './state.js' )
 const queue = require('./queue.js')
 function executeFeedback(){
-    console.log("inside feedback");
+   
     exec('rm agent.*.pickle', { cwd: './../deployment/' }, (error, stdout, stderr) => {
+        console.log("deleting agent pickles")
         if (error) throw error;
     });
     setTimeout(() => {
-        console.log("finish")
-    }, 2000);
+        console.log("after removing pickles")
+    }, 20000);
+    state.id="2"
+    state.msg="2- A começar a monitorização"
+    console.log("Starting monitoring")
     exec('./startagents.sh', { cwd: './../deployment/' }, (error, stdout, stderr) => {
         console.log( stdout, stderr ); 
        
-        state.id="2"
-        state.msg="2- A começar a monitorização"
+       
         if (error) {
             console.log("oh")
             return;
         }
+        setTimeout(() => {
+            
+        }, 20000);
+        execFunction()
     });
 
-    setTimeout(execFunction, 40000);
-    setTimeout(execLoad, 120000);
-    setTimeout(() => {
-        console.log("finish")
-    }, 200000);
 }
 
 function execFunction(){
     state.id="3"
     state.msg="3-A parar monitorização"
+    console.log("Stoppping");
     exec('./stopagents.sh', { cwd: './../deployment/' }, (error, stdout, stderr) => {
         console.log( stdout, stderr ); 
         if (error) throw error
+        setTimeout(() => {
+            
+        }, 20000);
+        execLoad()
     });
+    
 }
 
 
 function execLoad(){
 
-    queue.id=0
+    //queue.id=0
     queue.currentLeft=0
     queue.number=0
-    state.id="4"
     state.msg="4-A lançar dados para neo4j"
+    console.log("----STARTING TO LOAD TO NEO4J-------")
     exec('./loadresults.sh --clear --k8s services.txt agent.*.pickle > /dev/null 2>&1', { cwd: './../deployment/',stdio: ['pipe', 'pipe', 'ignore']}, (error, stdout, stderr) => {
-        console.log( stdout, stderr ); 
+        console.log("end"); 
         if (error) throw error
+        state.id="4"
     });
     
 }
@@ -64,7 +73,7 @@ function delay ( time ) {
 }
 
 router.post('/queue',async(req,res,next)=>{
-    console.log("just entered queue")
+    console.log("just entered queue"+req.body.data)
     try{ 
         var a = req.body.data
         queue.number = req.body.data.length
