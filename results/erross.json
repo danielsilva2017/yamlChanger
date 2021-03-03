@@ -2,52 +2,54 @@
     "kind": "Deployment",
     "apiVersion": "apps/v1",
     "metadata": {
-        "name": "catalogue",
+        "name": "front-end",
         "namespace": "sock-shop",
-        "selfLink": "/apis/apps/v1/namespaces/sock-shop/deployments/catalogue",
-        "uid": "458172c9-7813-11eb-b488-42010a840009",
-        "resourceVersion": "10346",
-        "generation": 2,
-        "creationTimestamp": "2021-02-26T09:16:13Z",
+        "selfLink": "/apis/apps/v1/namespaces/sock-shop/deployments/front-end",
+        "uid": "7182fa70-7c2f-11eb-8c19-42010a840fc6",
+        "resourceVersion": "2114",
+        "generation": 5,
+        "creationTimestamp": "2021-03-03T14:47:57Z",
         "labels": {
-            "name": "catalogue"
+            "name": "front-end"
         },
         "annotations": {
-            "deployment.kubernetes.io/revision": "2",
-            "kubectl.kubernetes.io/last-applied-configuration": "{\"apiVersion\":\"extensions/v1beta1\",\"kind\":\"Deployment\",\"metadata\":{\"annotations\":{},\"labels\":{\"name\":\"catalogue\"},\"name\":\"catalogue\",\"namespace\":\"sock-shop\"},\"spec\":{\"replicas\":1,\"template\":{\"metadata\":{\"labels\":{\"name\":\"catalogue\"}},\"spec\":{\"containers\":[{\"image\":\"weaveworksdemos/catalogue:0.3.5\",\"name\":\"catalogue\",\"ports\":[{\"containerPort\":80}],\"securityContext\":{\"capabilities\":{\"add\":[\"NET_BIND_SERVICE\"],\"drop\":[\"all\"]},\"readOnlyRootFilesystem\":true,\"runAsNonRoot\":true,\"runAsUser\":10001}}],\"nodeSelector\":{\"beta.kubernetes.io/os\":\"linux\"}}}}}\n"
+            "deployment.kubernetes.io/revision": "4",
+            "kubectl.kubernetes.io/last-applied-configuration": "{\"apiVersion\":\"extensions/v1beta1\",\"kind\":\"Deployment\",\"metadata\":{\"annotations\":{},\"name\":\"front-end\",\"namespace\":\"sock-shop\"},\"spec\":{\"replicas\":1,\"template\":{\"metadata\":{\"labels\":{\"name\":\"front-end\"}},\"spec\":{\"containers\":[{\"image\":\"weaveworksdemos/front-end:0.3.12\",\"name\":\"front-end\",\"ports\":[{\"containerPort\":8079}],\"resources\":{\"requests\":{\"cpu\":\"100m\",\"memory\":\"100Mi\"}},\"securityContext\":{\"capabilities\":{\"drop\":[\"all\"]},\"readOnlyRootFilesystem\":true,\"runAsNonRoot\":true,\"runAsUser\":10001}}],\"nodeSelector\":{\"beta.kubernetes.io/os\":\"linux\"}}}}}\n"
         }
     },
     "spec": {
-        "replicas": 1,
+        "replicas": 3,
         "selector": {
             "matchLabels": {
-                "name": "catalogue"
+                "name": "front-end"
             }
         },
         "template": {
             "metadata": {
                 "creationTimestamp": null,
                 "labels": {
-                    "name": "catalogue"
+                    "name": "front-end"
                 }
             },
             "spec": {
                 "containers": [
                     {
-                        "name": "catalogue",
-                        "image": "weaveworksdemos/catalogue:0.3.5",
+                        "name": "front-end",
+                        "image": "weaveworksdemos/front-end:0.3.12",
                         "ports": [
                             {
-                                "containerPort": 80,
+                                "containerPort": 8079,
                                 "protocol": "TCP"
                             }
                         ],
                         "resources": {
                             "limits": {
-                                "cpu": "300M"
+                                "cpu": "500m",
+                                "memory": "400Mi"
                             },
                             "requests": {
-                                "cpu": "200M"
+                                "cpu": "101m",
+                                "memory": "101Mi"
                             }
                         },
                         "terminationMessagePath": "/dev/termination-log",
@@ -55,9 +57,6 @@
                         "imagePullPolicy": "IfNotPresent",
                         "securityContext": {
                             "capabilities": {
-                                "add": [
-                                    "NET_BIND_SERVICE"
-                                ],
                                 "drop": [
                                     "all"
                                 ]
@@ -89,16 +88,17 @@
         "progressDeadlineSeconds": 2147483647
     },
     "status": {
-        "observedGeneration": 2,
-        "replicas": 1,
-        "updatedReplicas": 1,
-        "unavailableReplicas": 1,
+        "observedGeneration": 5,
+        "replicas": 3,
+        "updatedReplicas": 3,
+        "readyReplicas": 3,
+        "availableReplicas": 3,
         "conditions": [
             {
                 "type": "Available",
                 "status": "True",
-                "lastUpdateTime": "2021-02-26T09:16:13Z",
-                "lastTransitionTime": "2021-02-26T09:16:13Z",
+                "lastUpdateTime": "2021-03-03T14:54:32Z",
+                "lastTransitionTime": "2021-03-03T14:54:32Z",
                 "reason": "MinimumReplicasAvailable",
                 "message": "Deployment has minimum availability."
             }
