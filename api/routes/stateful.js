@@ -117,7 +117,7 @@ router.post('/resources/:namespace/limits/cpu/:deployment/:id/:index',(req,res,n
             var container=data.spec.template.spec.containers[index]
             extend(true,container,{resources:{limits:{cpu:final}}})
             //extend(true,data,novo)
-            client.deployments.update(name,data,function (err, data) {
+            clientarino.deployments.update(name,data,function (err, data) {
                 if(!err){
                     console.log("done")
                     res.status(200).json(data)
