@@ -17,7 +17,12 @@ Yaml is a part of CloudOverWatch, you need to have also inthe same environment:
 
 ## Note
 
-At the moment this repository still contains both solutions: before queue and the queue solution. The repository will suffer some cleaning soon
+The repository now should contain all files that were lost or outdated.
+
+## Post Thesis Changes
+
+API now gets a new parameter: "index" - to change the proper container, if there are more than one container
+Multiple bug fixes also solved to make changes a bit faster
 
 
 

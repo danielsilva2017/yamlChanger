@@ -2,103 +2,103 @@
     "kind": "Deployment",
     "apiVersion": "apps/v1",
     "metadata": {
-        "name": "front-end",
-        "namespace": "sock-shop",
-        "selfLink": "/apis/apps/v1/namespaces/sock-shop/deployments/front-end",
-        "uid": "7182fa70-7c2f-11eb-8c19-42010a840fc6",
-        "resourceVersion": "2114",
-        "generation": 5,
-        "creationTimestamp": "2021-03-03T14:47:57Z",
+        "name": "master",
+        "namespace": "default",
+        "selfLink": "/apis/apps/v1/namespaces/default/deployments/master",
+        "uid": "10e47a75-8120-11eb-ad23-42010a840035",
+        "resourceVersion": "2968",
+        "generation": 2,
+        "creationTimestamp": "2021-03-09T21:40:28Z",
         "labels": {
-            "name": "front-end"
+            "app": "master"
         },
         "annotations": {
-            "deployment.kubernetes.io/revision": "4",
-            "kubectl.kubernetes.io/last-applied-configuration": "{\"apiVersion\":\"extensions/v1beta1\",\"kind\":\"Deployment\",\"metadata\":{\"annotations\":{},\"name\":\"front-end\",\"namespace\":\"sock-shop\"},\"spec\":{\"replicas\":1,\"template\":{\"metadata\":{\"labels\":{\"name\":\"front-end\"}},\"spec\":{\"containers\":[{\"image\":\"weaveworksdemos/front-end:0.3.12\",\"name\":\"front-end\",\"ports\":[{\"containerPort\":8079}],\"resources\":{\"requests\":{\"cpu\":\"100m\",\"memory\":\"100Mi\"}},\"securityContext\":{\"capabilities\":{\"drop\":[\"all\"]},\"readOnlyRootFilesystem\":true,\"runAsNonRoot\":true,\"runAsUser\":10001}}],\"nodeSelector\":{\"beta.kubernetes.io/os\":\"linux\"}}}}}\n"
+            "deployment.kubernetes.io/revision": "1",
+            "kubectl.kubernetes.io/last-applied-configuration": "{\"apiVersion\":\"apps/v1\",\"kind\":\"Deployment\",\"metadata\":{\"annotations\":{},\"labels\":{\"app\":\"master\"},\"name\":\"master\",\"namespace\":\"default\"},\"spec\":{\"selector\":{\"matchLabels\":{\"app\":\"master\"}},\"template\":{\"metadata\":{\"labels\":{\"app\":\"master\"}},\"spec\":{\"containers\":[{\"env\":[{\"name\":\"MASTER\",\"value\":\"spark://master:7077\"},{\"name\":\"SPARK_PUBLIC_DNS\",\"value\":\"master\"}],\"image\":\"gettyimages/spark\",\"name\":\"master\",\"resources\":{\"limits\":{\"cpu\":4,\"memory\":\"4Gi\"},\"requests\":{\"cpu\":\"0.5\",\"memory\":\"2Gi\"}}}],\"hostname\":\"master\",\"terminationGracePeriodSeconds\":1800}}}}\n"
         }
     },
     "spec": {
-        "replicas": 3,
+        "replicas": 2,
         "selector": {
             "matchLabels": {
-                "name": "front-end"
+                "app": "master"
             }
         },
         "template": {
             "metadata": {
                 "creationTimestamp": null,
                 "labels": {
-                    "name": "front-end"
+                    "app": "master"
                 }
             },
             "spec": {
                 "containers": [
                     {
-                        "name": "front-end",
-                        "image": "weaveworksdemos/front-end:0.3.12",
-                        "ports": [
+                        "name": "master",
+                        "image": "gettyimages/spark",
+                        "env": [
                             {
-                                "containerPort": 8079,
-                                "protocol": "TCP"
+                                "name": "MASTER",
+                                "value": "spark://master:7077"
+                            },
+                            {
+                                "name": "SPARK_PUBLIC_DNS",
+                                "value": "master"
                             }
                         ],
                         "resources": {
                             "limits": {
-                                "cpu": "500m",
-                                "memory": "400Mi"
+                                "cpu": "4",
+                                "memory": "4Gi"
                             },
                             "requests": {
-                                "cpu": "101m",
-                                "memory": "101Mi"
+                                "cpu": "503m",
+                                "memory": "2Gi"
                             }
                         },
                         "terminationMessagePath": "/dev/termination-log",
                         "terminationMessagePolicy": "File",
-                        "imagePullPolicy": "IfNotPresent",
-                        "securityContext": {
-                            "capabilities": {
-                                "drop": [
-                                    "all"
-                                ]
-                            },
-                            "runAsUser": 10001,
-                            "runAsNonRoot": true,
-                            "readOnlyRootFilesystem": true
-                        }
+                        "imagePullPolicy": "Always"
                     }
                 ],
                 "restartPolicy": "Always",
-                "terminationGracePeriodSeconds": 30,
+                "terminationGracePeriodSeconds": 1800,
                 "dnsPolicy": "ClusterFirst",
-                "nodeSelector": {
-                    "beta.kubernetes.io/os": "linux"
-                },
                 "securityContext": {},
+                "hostname": "master",
                 "schedulerName": "default-scheduler"
             }
         },
         "strategy": {
             "type": "RollingUpdate",
             "rollingUpdate": {
-                "maxUnavailable": 1,
-                "maxSurge": 1
+                "maxUnavailable": "25%",
+                "maxSurge": "25%"
             }
         },
-        "revisionHistoryLimit": 2147483647,
-        "progressDeadlineSeconds": 2147483647
+        "revisionHistoryLimit": 10,
+        "progressDeadlineSeconds": 600
     },
     "status": {
-        "observedGeneration": 5,
-        "replicas": 3,
-        "updatedReplicas": 3,
-        "readyReplicas": 3,
-        "availableReplicas": 3,
+        "observedGeneration": 2,
+        "replicas": 2,
+        "updatedReplicas": 2,
+        "readyReplicas": 2,
+        "availableReplicas": 2,
         "conditions": [
+            {
+                "type": "Progressing",
+                "status": "True",
+                "lastUpdateTime": "2021-03-09T21:40:44Z",
+                "lastTransitionTime": "2021-03-09T21:40:28Z",
+                "reason": "NewReplicaSetAvailable",
+                "message": "ReplicaSet \"master-5cc6c8d499\" has successfully progressed."
+            },
             {
                 "type": "Available",
                 "status": "True",
-                "lastUpdateTime": "2021-03-03T14:54:32Z",
-                "lastTransitionTime": "2021-03-03T14:54:32Z",
+                "lastUpdateTime": "2021-03-09T22:01:50Z",
+                "lastTransitionTime": "2021-03-09T22:01:50Z",
                 "reason": "MinimumReplicasAvailable",
                 "message": "Deployment has minimum availability."
             }
