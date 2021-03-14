@@ -21,8 +21,8 @@ The repository now should contain all files that were lost or outdated.
 
 ## Post Thesis Changes
 
-API now gets a new parameter: "index" - to change the proper container, if there are more than one container
-Multiple bug fixes also solved to make changes a bit faster
+* API now gets a new parameter: "index" - to change the proper container, if there is more than one container
+* Multiple bug fixes also solved to make changes a bit faster
 
 
 
