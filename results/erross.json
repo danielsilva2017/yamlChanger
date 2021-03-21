@@ -2,103 +2,130 @@
     "kind": "Deployment",
     "apiVersion": "apps/v1",
     "metadata": {
-        "name": "master",
-        "namespace": "default",
-        "selfLink": "/apis/apps/v1/namespaces/default/deployments/master",
-        "uid": "10e47a75-8120-11eb-ad23-42010a840035",
-        "resourceVersion": "2968",
-        "generation": 2,
-        "creationTimestamp": "2021-03-09T21:40:28Z",
+        "name": "orders",
+        "namespace": "sock-shop",
+        "selfLink": "/apis/apps/v1/namespaces/sock-shop/deployments/orders",
+        "uid": "6292d38a-8a3f-11eb-a162-42010a840007",
+        "resourceVersion": "5035",
+        "generation": 5,
+        "creationTimestamp": "2021-03-21T12:17:20Z",
         "labels": {
-            "app": "master"
+            "name": "orders"
         },
         "annotations": {
-            "deployment.kubernetes.io/revision": "1",
-            "kubectl.kubernetes.io/last-applied-configuration": "{\"apiVersion\":\"apps/v1\",\"kind\":\"Deployment\",\"metadata\":{\"annotations\":{},\"labels\":{\"app\":\"master\"},\"name\":\"master\",\"namespace\":\"default\"},\"spec\":{\"selector\":{\"matchLabels\":{\"app\":\"master\"}},\"template\":{\"metadata\":{\"labels\":{\"app\":\"master\"}},\"spec\":{\"containers\":[{\"env\":[{\"name\":\"MASTER\",\"value\":\"spark://master:7077\"},{\"name\":\"SPARK_PUBLIC_DNS\",\"value\":\"master\"}],\"image\":\"gettyimages/spark\",\"name\":\"master\",\"resources\":{\"limits\":{\"cpu\":4,\"memory\":\"4Gi\"},\"requests\":{\"cpu\":\"0.5\",\"memory\":\"2Gi\"}}}],\"hostname\":\"master\",\"terminationGracePeriodSeconds\":1800}}}}\n"
+            "deployment.kubernetes.io/revision": "4",
+            "kubectl.kubernetes.io/last-applied-configuration": "{\"apiVersion\":\"extensions/v1beta1\",\"kind\":\"Deployment\",\"metadata\":{\"annotations\":{},\"labels\":{\"name\":\"orders\"},\"name\":\"orders\",\"namespace\":\"sock-shop\"},\"spec\":{\"replicas\":1,\"template\":{\"metadata\":{\"labels\":{\"name\":\"orders\"}},\"spec\":{\"containers\":[{\"env\":[{\"name\":\"ZIPKIN\",\"value\":\"zipkin.jaeger.svc.cluster.local\"},{\"name\":\"JAVA_OPTS\",\"value\":\"-Xms64m -Xmx128m -XX:PermSize=32m -XX:MaxPermSize=64m -XX:+UseG1GC -Djava.security.egd=file:/dev/urandom\"}],\"image\":\"weaveworksdemos/orders:0.4.7\",\"name\":\"orders\",\"ports\":[{\"containerPort\":80}],\"securityContext\":{\"capabilities\":{\"add\":[\"NET_BIND_SERVICE\"],\"drop\":[\"all\"]},\"readOnlyRootFilesystem\":true,\"runAsNonRoot\":true,\"runAsUser\":10001},\"volumeMounts\":[{\"mountPath\":\"/tmp\",\"name\":\"tmp-volume\"}]}],\"nodeSelector\":{\"beta.kubernetes.io/os\":\"linux\"},\"volumes\":[{\"emptyDir\":{\"medium\":\"Memory\"},\"name\":\"tmp-volume\"}]}}}}\n"
         }
     },
     "spec": {
         "replicas": 2,
         "selector": {
             "matchLabels": {
-                "app": "master"
+                "name": "orders"
             }
         },
         "template": {
             "metadata": {
                 "creationTimestamp": null,
                 "labels": {
-                    "app": "master"
+                    "name": "orders"
                 }
             },
             "spec": {
+                "volumes": [
+                    {
+                        "name": "tmp-volume",
+                        "emptyDir": {
+                            "medium": "Memory"
+                        }
+                    }
+                ],
                 "containers": [
                     {
-                        "name": "master",
-                        "image": "gettyimages/spark",
+                        "name": "orders",
+                        "image": "weaveworksdemos/orders:0.4.7",
+                        "ports": [
+                            {
+                                "containerPort": 80,
+                                "protocol": "TCP"
+                            }
+                        ],
                         "env": [
                             {
-                                "name": "MASTER",
-                                "value": "spark://master:7077"
+                                "name": "ZIPKIN",
+                                "value": "zipkin.jaeger.svc.cluster.local"
                             },
                             {
-                                "name": "SPARK_PUBLIC_DNS",
-                                "value": "master"
+                                "name": "JAVA_OPTS",
+                                "value": "-Xms64m -Xmx128m -XX:PermSize=32m -XX:MaxPermSize=64m -XX:+UseG1GC -Djava.security.egd=file:/dev/urandom"
                             }
                         ],
                         "resources": {
                             "limits": {
-                                "cpu": "4",
-                                "memory": "4Gi"
+                                "cpu": "600m",
+                                "memory": "500Mi"
                             },
                             "requests": {
-                                "cpu": "503m",
-                                "memory": "2Gi"
+                                "cpu": "500m",
+                                "memory": "400Mi"
                             }
                         },
+                        "volumeMounts": [
+                            {
+                                "name": "tmp-volume",
+                                "mountPath": "/tmp"
+                            }
+                        ],
                         "terminationMessagePath": "/dev/termination-log",
                         "terminationMessagePolicy": "File",
-                        "imagePullPolicy": "Always"
+                        "imagePullPolicy": "IfNotPresent",
+                        "securityContext": {
+                            "capabilities": {
+                                "add": [
+                                    "NET_BIND_SERVICE"
+                                ],
+                                "drop": [
+                                    "all"
+                                ]
+                            },
+                            "runAsUser": 10001,
+                            "runAsNonRoot": true,
+                            "readOnlyRootFilesystem": true
+                        }
                     }
                 ],
                 "restartPolicy": "Always",
-                "terminationGracePeriodSeconds": 1800,
+                "terminationGracePeriodSeconds": 30,
                 "dnsPolicy": "ClusterFirst",
+                "nodeSelector": {
+                    "beta.kubernetes.io/os": "linux"
+                },
                 "securityContext": {},
-                "hostname": "master",
                 "schedulerName": "default-scheduler"
             }
         },
         "strategy": {
             "type": "RollingUpdate",
             "rollingUpdate": {
-                "maxUnavailable": "25%",
-                "maxSurge": "25%"
+                "maxUnavailable": 1,
+                "maxSurge": 1
             }
         },
-        "revisionHistoryLimit": 10,
-        "progressDeadlineSeconds": 600
+        "revisionHistoryLimit": 2147483647,
+        "progressDeadlineSeconds": 2147483647
     },
     "status": {
-        "observedGeneration": 2,
+        "observedGeneration": 5,
         "replicas": 2,
         "updatedReplicas": 2,
         "readyReplicas": 2,
         "availableReplicas": 2,
         "conditions": [
             {
-                "type": "Progressing",
-                "status": "True",
-                "lastUpdateTime": "2021-03-09T21:40:44Z",
-                "lastTransitionTime": "2021-03-09T21:40:28Z",
-                "reason": "NewReplicaSetAvailable",
-                "message": "ReplicaSet \"master-5cc6c8d499\" has successfully progressed."
-            },
-            {
                 "type": "Available",
                 "status": "True",
-                "lastUpdateTime": "2021-03-09T22:01:50Z",
-                "lastTransitionTime": "2021-03-09T22:01:50Z",
+                "lastUpdateTime": "2021-03-21T12:17:21Z",
+                "lastTransitionTime": "2021-03-21T12:17:21Z",
                 "reason": "MinimumReplicasAvailable",
                 "message": "Deployment has minimum availability."
             }

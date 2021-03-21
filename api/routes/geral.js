@@ -73,6 +73,7 @@ function delay ( time ) {
 }
 
 router.post('/queue',async(req,res,next)=>{
+    res.send({success: true})
     console.log("just entered queue"+req.body.data)
     try{ 
         var a = req.body.data

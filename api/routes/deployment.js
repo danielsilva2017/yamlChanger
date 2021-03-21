@@ -82,7 +82,7 @@ router.post('/replicas/:namespace/:deployment/:id',(req,res,next)=>{
             data.spec.replicas=parseInt(id)
             clientarino.deployments.update(name,data,function (err, data) {
                 if(!err){
-                    console.log("done9090")
+                    console.log("done")
                     res.status(200).json(data)
                 }
                 else{
@@ -288,11 +288,7 @@ router.post('/resources/:namespace/requests/memory/:deployment/:id/:index',(req,
     }, 200000);
 }
 
-router.get('/xd/:test',(req,res,next)=>{
-    
-    res.status(200).json("estamos aqui")
-   
-});
+
 
 function execFunction(){
     state.id="3"
