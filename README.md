@@ -23,6 +23,7 @@ The repository now should contain all files that were lost or outdated.
 
 * API now gets a new parameter: "index" - to change the proper container, if there is more than one container
 * Multiple bug fixes also solved to make changes a bit faster
+* Fixed a bug where queue would restart if changes took too much time
 
 
 
